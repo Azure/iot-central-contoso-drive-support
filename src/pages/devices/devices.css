@@ -1,0 +1,49 @@
+.devices-page {
+    margin: 1rem;
+    text-align: center;
+}
+
+.devices-page .btn-link {
+    padding: 0;
+    margin-bottom: 0.25rem;
+    color: var(--main-bg-color);
+}
+
+.devices-page div:nth-child(2) {
+    text-align: left;
+}
+
+.devices-page .app>div:first-child:not(:last-child) {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    color: var(--main-bg-color);
+}
+
+.devices-page .ReactTable {
+    height: calc(100vh - 10.5rem);
+    border-radius: 0.25rem;
+    box-shadow: 0px 0px 0.25rem 0px var(--box-shadow-color);
+    margin-bottom: 1rem;
+}
+
+.devices-page .cellwrapper {
+    height: 78px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.devices-page .cellwrapper-center {
+    align-items: center;
+}
+
+.devices-page .cellwrapper-img {
+    text-align: center;
+}
+
+.devices-page .cellwrapper-img img {
+    margin: 8px 0;
+    height: 64px;
+}

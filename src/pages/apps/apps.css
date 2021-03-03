@@ -1,0 +1,65 @@
+.apps-page {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+.apps-page .app-cards {
+    display: flex;
+    flex-flow: wrap;
+}
+
+.apps-page .app-card>div {
+    margin-bottom: 1.5rem;
+}
+
+.apps-page .app-card {
+    background-color: var(--bright-color);
+    min-height: 12.5rem;
+    border-radius: 0.25rem;
+    padding: 0.75rem;
+    color: var(--main-bg-color);
+    margin-right: 1rem;
+    box-shadow: 0px 0px 0.25rem 0px var(--box-shadow-color);
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.apps-page .app-card>div>div:nth-child(1) {
+    height: 2.8rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.6rem;
+}
+
+.apps-page .app-card .name {
+    font-size: 0.9rem;
+}
+
+.apps-page .app-card .banner {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-align: center;
+    background-color: var(--secondary-accent-color);
+    color: var(--bright-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.apps-page .app-card .field {
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+}
+
+.apps-page .app-card .field>div:nth-child(1) {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.apps-page .app-card .field>div:nth-child(2) {
+    font-size: 0.9rem;
+    font-weight: 500;
+}

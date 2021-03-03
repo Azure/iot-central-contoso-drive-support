@@ -1,0 +1,85 @@
+.subauth-page {
+    height: 100%;
+    color: var(--bright-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.subauth-page h1 {
+    font-size: 5rem;
+    margin-bottom: 0;
+}
+
+.subauth-page h1, .subauth-page h2, .subauth-page h3 {
+    color: var(--bright-color);
+}
+
+.subauth-page .login {
+    margin-top: 4rem;
+}
+
+.subauth-page .signout {
+    margin-top: 4rem;
+    text-align: center;
+}
+
+.subauth-page .subs {
+    margin-top: 4rem;
+}
+
+.subauth-page .subscriptions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+    height: 12rem;
+    overflow-y: auto;
+}
+
+.subauth-page .subscriptions .subscription-button {
+    width: fit-content;
+    cursor: pointer;
+    background-color: var(--main-accent-color);
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: flex-end;
+    padding: 1rem;
+    color: var(--bright-color);
+    border: none;
+    border-radius: 4px;
+}
+
+.subauth-page .subscriptions .subscription-button:not(:last-child) {
+    margin: 0 0 1rem 0;
+}
+
+.subauth-page .subscriptions .subscription-button:hover {
+    background-color: var(--sub-main-accent-color);
+}
+
+.subauth-page .subscriptions .subscription-selector {
+    text-align: left;
+}
+
+.subauth-page .subscriptions .subscription-selector>div:nth-child(1) {
+    font-size: 0.7rem;
+    font-weight: 100;
+}
+
+.subauth-page .subscriptions .subscription-selector>div:nth-child(2) {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.subauth-page .subscriptions .subscription-selector>div:nth-child(3) {
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.subauth-page .subscriptions .subscription-selector>div:nth-child(4) {
+    margin-top: 0.9rem;
+    font-size: 0.9rem;
+}

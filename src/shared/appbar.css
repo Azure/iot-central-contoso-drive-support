@@ -1,0 +1,16 @@
+.appbar {
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.appbar .app>div:first-child:not(:last-child) {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    color: var(--main-accent-color);
+}
+
+.appbar .app:not(:last-child) {
+    margin-bottom: 0.5rem;
+}

@@ -1,0 +1,56 @@
+{
+  "name": "baseline",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@azure/msal-browser": "^2.8.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "@microsoft/iot-cardboard-js": "^1.0.0-beta.1",
+    "@types/react-toggle": "^4.0.2",
+    "axios": "^0.21.0",
+    "azure-maps-control": "^2.0.31",
+    "cross-env": "^7.0.3",
+    "moment": "^2.29.1",
+    "qrcode.react": "^1.0.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.1",
+    "react-spinners": "^0.10.4",
+    "react-table-v6": "^6.8.6",
+    "react-toggle": "^4.1.1",
+    "reverse-geocode": "^1.3.3",
+    "typescript": "^4.1.3",
+    "uuid": "^8.3.2"
+  },
+  "scripts": {
+    "start": "cross-env PORT=3001 react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/qrcode.react": "^1.0.1",
+    "@types/react": "^17.0.0"
+  }
+}

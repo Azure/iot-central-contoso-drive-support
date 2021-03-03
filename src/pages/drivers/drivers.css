@@ -1,0 +1,31 @@
+.drivers-page {
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 2rem;
+}
+
+.drivers-page .drivers-selector {
+    justify-content: center;
+}
+
+.drivers-page .form {
+    text-align: center;
+    width: 50%;
+}
+
+.drivers-page .form .fields {
+    margin-top: 1rem;
+}
+
+.drivers-page .loader {
+    margin-top: 1rem;
+}
+
+.drivers-page .error {
+    text-align: center;
+    width: 70%;
+    color: var(--error-color);
+}

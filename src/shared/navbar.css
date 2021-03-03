@@ -1,0 +1,19 @@
+.navbar {
+    padding: 0 1rem;
+    background-color: var(--main-accent-color-light);
+}
+
+.navbar button {
+    margin-bottom: 0.5rem;
+}
+
+.navbar a button {
+    width: 100%;
+    font-weight: 700 !important;
+}
+
+/* this selector makes the nav button highlight per route url */
+
+.navbar .selected button {
+    background-color: var(--main-bg-color);
+}

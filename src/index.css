@@ -1,0 +1,261 @@
+:root {
+  --main-bg-color: #743DA8;
+  --main-accent-color: #A83DA6;
+  --sub-main-accent-color: #792c77;
+  --secondary-accent-color: #3F3DA8;
+  --sub-secondary-accent-color: #2b2a74;
+  --bright-color: #fff;
+  --bright-color-dim: rgb(255, 255, 255, 0.20);
+  --bright-color-partial: rgb(255, 255, 255, 0.70);
+  --dark-color: #000;
+  --success-color: #00C514;
+  --success-color-alt: #00cc00;
+  --danger-color: #A81800;
+  --warning-color: #FFE606;
+  --error-color: #FF2727;
+  --info-color: #00FFF0;
+  --box-shadow-color: rgba(0, 0, 0, 0.50);
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  background-color: var(--main-bg-color);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  height: inherit;
+}
+
+#root {
+  height: inherit;
+}
+
+/* global styles */
+
+h1 {
+  font-size: 3rem;
+}
+
+h1, h2, h3, h4, h5 {
+  margin-top: 0;
+  font-weight: 700;
+  color: var(--main-bg-color);
+}
+
+a:link, a:visited, a:active {
+  color: var(--sub-secondary-accent-color);
+}
+
+a:hover {
+  color: var(--sub-main-accent-color);
+}
+
+a {
+  text-decoration: none;
+}
+
+label {
+  font-weight: 700;
+}
+
+/* Button styles */
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0px 0px 0.25rem 0px var(--box-shadow-color);
+}
+
+.selected button {
+    background-color: var(--main-bg-color);
+}
+
+.btn {
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 1rem 2.5rem;
+  border-radius: 0.25rem;
+  display: inline-block;
+  text-decoration: none;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background-color: var(--main-accent-color);
+  border: 1px solid var(--sub-main-accent-color);
+  color: var(--bright-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--sub-main-accent-color) !important;
+}
+
+.btn-primary-alt {
+  background-color: var(--main-bg-color);
+  border: 1px solid var(--sub-main-accent-color);
+  color: var(--bright-color);
+}
+
+.btn-primary-alt:hover {
+  background-color: var(--sub-main-accent-color) !important;
+}
+
+.btn-secondary {
+  background-color: var(--secondary-accent-color);
+  border: 1px solid var(--sub-secondary-accent-color);
+  color: var(--bright-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--sub-secondary-accent-color) !important;
+}
+
+.btn-link {
+  color: var(--bright-color);
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
+.btn-link:hover {
+  color: var(--sub-main-accent-color);
+}
+
+.btn-action {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  color: var(--bright-color-partial);
+  padding: 1rem;
+}
+
+.btn-action div {
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+.btn-action:hover svg {
+  color: var(--bright-color) !important;
+}
+
+.btn-action:hover {
+  color: var(--bright-color) !important;
+}
+
+.btn-selector {
+  height: 8rem;
+  background-color: var(--main-accent-color);
+  margin: 0 1rem 1rem 0;
+  border: solid 1px var(--sub-main-accent-color);
+}
+
+.btn-selector:hover {
+  background-color: var(--sub-main-accent-color) !important;
+}
+
+.btn-selector div:first-child {
+  margin-bottom: 0.5rem;
+}
+
+.btn-selector div:last-child {
+  font-weight: 700;
+  color: var(--bright-color);
+}
+
+/* common */
+
+.form-selector {
+  display: flex;
+  flex-flow: wrap;
+}
+
+.form .fields {
+  margin-bottom: 0.5rem;
+}
+
+.form .fields-stacked {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.form .fields-stacked button {
+  width: min-content;
+}
+
+.form .fields input[type='text'] {
+  height: 1.5rem;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  width: 100%;
+  color: var(--sub-main-accent-color);
+  background-color: var(--bright-color);
+  border: solid 1px var(--sub-main-accent-color);
+}
+
+.form .fields input[type='text']:focus {
+  outline: none;
+  border: solid 1px var(--sub-main-accent-color);
+  box-shadow: 0 0 0.25rem 0 var(--box-shadow-color);
+}
+
+/* loader */
+
+.loader {
+  text-align: center;
+  margin-top: 3.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.loader label {
+  margin-bottom: 0.5rem;
+}
+
+/* App specific override sytyles for react-toggle */
+
+.app-toggle.react-toggle:hover:not(.react-toggle--disabled) .react-toggle-track {
+  background-color: var(--sub-main-accent-color);
+}
+
+.app-toggle.react-toggle-track {
+  background-color: var(--main-bg-color);
+}
+
+.app-toggle.react-toggle--checked .react-toggle-track {
+  background-color: var(--main-bg-color);
+}
+
+.app-toggle.react-toggle--checked .react-toggle-thumb {
+  border-color: var(--main-bg-color);
+}
+
+.app-toggle.react-toggle--checked:hover:not(.react-toggle--disabled) .react-toggle-track {
+  background-color: var(--sub-main-accent-color);
+}
+
+.app-toggle.react-toggle--focus .react-toggle-thumb {
+  -webkit-box-shadow: 0px 0px 3px 2px var(--main-accent-color);
+  -moz-box-shadow: 0px 0px 3px 2px var(--main-accent-color);
+  box-shadow: 0px 0px 2px 3px var(--main-accent-color);
+}
+
+.app-toggle.react-toggle:active:not(.react-toggle--disabled) .react-toggle-thumb {
+  -webkit-box-shadow: 0px 0px 5px 5px var(--main-accent-color);
+  -moz-box-shadow: 0px 0px 5px 5px var(--main-accent-color);
+  box-shadow: 0px 0px 5px 5px var(--main-accent-color);
+}

@@ -1,0 +1,26 @@
+.masthead {
+    height: 5rem;
+    background-color: var(--main-bg-color);
+    color: var(--bright-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+}
+
+.masthead .title {
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    font-weight: 700;
+}
+
+.masthead .sub-title {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    line-height: 0.9rem;
+    font-weight: 600;
+}
+
+.masthead .btn-link {
+    padding: 0;
+}
