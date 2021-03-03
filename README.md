@@ -15,7 +15,7 @@ The Contoso-Drive companion experience is split into three concepts
 
 * __The Driver App.__ This application represents the device that sends the vehicle's telematics to IoT Central which is subsequently available in the Support Portal. Typically this is a phone acting as a gateway and is run on the driver's mobile phone or an internet accessible device. Visit [this](https://github.com/iot-for-all/contoso-drive-simulation) repo to see the Driver Application.
 
-* __The IoT Central application(s).__ The main experience to manage the Contoso-Drive devices and admin level tasks for Contoso-Drive. It is typically used by the technician/support person and other privileged persons to perform admin level device management, insights and actions. Visit [this](https://github.com/iot-for-all/iotc-contso-drive-learning) repo to see the Learning Path on how to set up the Contoso-Drive IoT Central applications.
+* __The IoT Central application(s).__ The main experience to manage the Contoso-Drive devices and admin level tasks for Contoso-Drive. It is typically used by the technician/support person and other privileged persons to perform admin level device management, insights and actions. Visit [this](https://github.com/iot-for-all/contso-drive-learning) repo to see the Learning Path on how to set up the Contoso-Drive IoT Central applications.
 
 __This repo represents the Support Portal application scenario.__ 
 
