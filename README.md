@@ -10,8 +10,6 @@ Contoso-Drive is an example codebase and demonstration of an IoT Central compani
 
 <p align="center"><img width="600px" src="images/hero.png" /></p>
 
-[Watch a video of the Contoso-Drive experience here](https://youtu.be/_6woSCJfk4I)
-
 The Contoso-Drive companion experience is split into three concepts
 
 * __The Support Portal.__ This application is an example of role specific scenarios for the technician/support person of Contoso-Drive. Typically this is a desktop application and is owned, managed and deployed by the Contoso-Drive company.
