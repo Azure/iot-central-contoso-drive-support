@@ -6,7 +6,7 @@ Watch a 5 minute overview of the experience
 
 [![IoT Central Companion Experience - Contoso Drive](/images/yt_thumb.png)](https://youtu.be/_6woSCJfk4I)
 
-Contoso-Drive is an example codebase and demonstration of an IoT Central companion experience. It's a codebase built around Fleet Management scenarios and leverages the Azure IoT Central REST APIs to communicate with the corresponding IoT Central applications.
+Contoso-Drive is an example codebase and demonstration of an IoT Central companion experience. It's a codebase built around Fleet Management scenarios and leverages the [Azure IoT Central REST APIs](https://docs.microsoft.com/en-us/rest/api/iotcentral/) to communicate with the corresponding IoT Central applications.
 
 <p align="center"><img width="600px" src="images/hero.png" /></p>
 
@@ -35,7 +35,7 @@ There are a couple of steps that need to be completed before running the code.
 
 * __Configure the AAD application__
 
-  You will need to have an AAD application so that an authenticated user can be authorized to use IoT Central APIs and ARM. If you have setup the support portal already, you can share the same AAD application. If you need to setup a new or different AAD application, use the following repo to guide you [Setting up an AAD application to work with IoT Central](https://github.com/iot-for-all/iotc-aad-setup) Once you have an AAD application, change the [config.ts](/src/config.ts) file and update the following.
+  You will need to have an AAD application so that an authenticated user can be authorized to use IoT Central APIs and ARM. If you have setup the support portal already, you can share the same AAD application. If you need to setup a new or different AAD application, use the following repo to guide you [Setting up an AAD application to work with IoT Central](https://github.com/iot-for-all/iot-central-aad-setup) Once you have an AAD application, change the [config.ts](/src/config.ts) file and update the following.
 
   ``` 
   AADClientID: '<YOUR AAD APPLICATION CLIENT ID HERE>',
