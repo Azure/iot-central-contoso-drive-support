@@ -128,7 +128,7 @@ function getTenantsARM(accessToken: string) {
 export const MsalConfig = {
   auth: {
     clientId: Config.AADClientID,
-    authority: 'https://login.microsoftonline.com/' + Config.AADDirectoryID,
+    authority: Config.AADLoginServer + '/' + Config.AADDirectoryID,
     redirectUri: Config.AADRedirectURI
   },
   cache: {
@@ -187,8 +187,7 @@ export class AuthProvider extends React.PureComponent {
       })
       .then(() => {
         const sharableAuthInstance = new MsalAuthService({
-          authority:
-            'https://login.microsoftonline.com/' + Config.AADDirectoryID,
+          authority: Config.AADLoginServer + '/' + Config.AADDirectoryID,
           clientId: Config.AADClientID,
           scope: 'https://apps.azureiotcentral.com/user_impersonation',
           redirectUri: Config.AADRedirectURI,
@@ -224,9 +223,9 @@ export class AuthProvider extends React.PureComponent {
       }
     }
 
-    const filtered: Array<string> = [];
+    let filtered: Array<string> = [];
     if (Config.cacheAppFilters && cachedFilter) {
-      cachedApps.filteredApps = cachedFilter;
+      filtered = cachedFilter;
     }
     else {
       for (const app in subscription.apps) {
