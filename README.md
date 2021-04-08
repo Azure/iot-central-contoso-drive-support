@@ -66,7 +66,7 @@ Once the app has been set up and is running, there are several screens that you 
 
 ## View Map screen
 The View Map screen is a visualization that spans across applications within the subscription. 
- Here, devices (vehicles) are can be selected which opens a side panel. Filtering the apps will remove devices from the map so you can find relevant devices.
+ Here, devices (vehicles) can be selected which opens a side panel. Filtering the apps will remove devices from the map so you can find relevant devices.
 
 <p align="center"><img width="700px" src="images/figure3.png" /></p>
 
