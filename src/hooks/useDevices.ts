@@ -18,7 +18,7 @@ const useDevices = (override: boolean) => {
         setError(null);
         try {
             const token = await authContext.getCentralAccessToken();
-            await dataContext.getDevices(authContext.filteredApps, token, authContext.filteredApps, override);
+            await dataContext.getDevices(authContext.centralApps, token, override);
             setData({});
         } catch (error) {
             setError(error);

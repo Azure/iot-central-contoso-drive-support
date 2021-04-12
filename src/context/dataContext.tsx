@@ -26,25 +26,25 @@ function makeAPICall(api, accessToken: string) {
     });
 }
 
-async function getDevicesForApps(appHosts: Array<string>, domain: string, token: string) {
+async function getDevicesForApps(apps: Array<string>, domain: string, token: string) {
     return new Promise(async (resolve, reject) => {
         const appDevices = {};
         try {
-            for (const host in appHosts) {
-                const res: any = await makeAPICall(`https://${appHosts[host]}${domain}/api/preview/devices`, token)
-                appDevices[appHosts[host]] = res.data.value;
+            for (const appId in apps) {
+                const res: any = await makeAPICall(`https://${apps[appId]}${domain}/api/preview/devices`, token)
+                appDevices[apps[appId]] = res.data.value;
             }
             resolve(appDevices);
         } catch (err) { console.warn(err); reject(err); }
     })
 }
 
-async function getDeviceProperty(appHost: string, domain: string, deviceId: string, token: string) {
+async function getDeviceProperty(appId: string, domain: string, deviceId: string, token: string) {
     return new Promise(async (resolve, reject) => {
         let res1, res2: any = null;
         try {
-            res1 = await makeAPICall(`https://${appHost}${domain}/api/preview/devices/${deviceId}/properties`, token)
-            res2 = await makeAPICall(`https://${appHost}${domain}/api/preview/devices/${deviceId}/cloudProperties`, token)
+            res1 = await makeAPICall(`https://${appId}${domain}/api/preview/devices/${deviceId}/properties`, token)
+            res2 = await makeAPICall(`https://${appId}${domain}/api/preview/devices/${deviceId}/cloudProperties`, token)
             resolve(Object.assign({}, res1.data || {}, res2.data || {}));
         } catch (err) { console.warn(err); reject(err); }
     })
@@ -60,9 +60,7 @@ async function getMapData(token: string, templates: any, appDevices: Array<any>,
 
     console.log('Map fetch:' + new Date(Date.now()));
 
-    for (const appId in appDevices) {
-        if (filteredApps.indexOf(appId) === -1) { continue; }
-
+    for (const appId of filteredApps) {
         const devices = appDevices[appId];
         for (const device in devices) {
             if (validTemplates.indexOf(devices[device]['instanceOf']) > -1) {
@@ -118,33 +116,39 @@ export class DataProvider extends React.PureComponent {
         this.startMapData(getToken, templates, filteredApps);
     }
 
-    getDevices = async (appHosts: Array<string>, token: string, filteredApps: Array<string>, overrideCache: boolean) => {
+    getDevices = async (apps: Array<string>, token: string, overrideCache: boolean) => {
         // ONLY THIS METHOD SHOULD UPDATE THE devices STATE PROPERTY
-        let devices: any = null;
-        if (!overrideCache && Config.cacheAppDevices) {
+        let cachedDevices: any = null;
+        if (!overrideCache && Config.cacheDevices) {
             try {
-                devices = JSON.parse(localStorage.getItem('cachedDevices') as string);
+                cachedDevices = localStorage.getItem('cachedDevices');
             } catch { };
         }
 
-        if (!devices || devices === '') {
-            devices = await getDevicesForApps(appHosts, Config.AppDNS, token);
-            localStorage.setItem('cachedDevices', JSON.stringify(devices));
-        }
-
-        this.setState({ devices });
-
-        for (const appId in this.state.devices) {
-            if (filteredApps.indexOf(appId) === -1) { continue; }
-            const propDevices: any = this.state.devices[appId];
-            const length = propDevices.length;
-            const newState = Object.assign({}, this.state.devices);
-            for (let i = 0; i < length; i++) {
-                const props = await getDeviceProperty(appId, Config.AppDNS, propDevices[i].id, token);
-                newState[appId][i]['__properties'] = props;
-            }
+        if (!overrideCache && Config.cacheDevices && cachedDevices !== null && cachedDevices !== '') {
+            const newState: any = JSON.parse(cachedDevices);
             this.setState({ devices: newState });
+            return;
         }
+
+        const devices: any = await getDevicesForApps(apps, Config.AppDNS, token);
+
+        setTimeout(async () => {
+            for (const appId in devices) {
+                const newState = Object.assign({}, this.state.devices);
+                const propDevices: any = newState[appId];
+                const length = propDevices.length;
+                for (let i = 0; i < length; i++) {
+                    const props = await getDeviceProperty(appId, Config.AppDNS, propDevices[i].id, token);
+                    newState[appId][i]['__properties'] = props;
+                }
+                localStorage.setItem('cachedDevices', JSON.stringify(newState));
+                this.setState({ devices: newState });
+            }
+        }, 2000);
+
+        // fetch the list of devices first
+        this.setState({ devices });
     }
 
     sendCommand = async (host: string, id: string, name: string, body: any, token: string) => {

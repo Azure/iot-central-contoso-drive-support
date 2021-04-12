@@ -45,37 +45,25 @@ function getAccessTokenForScope(silentFail: boolean, msalInstance: any, scope: a
   });
 }
 
-function getCentralApplicationsARM(accessToken: string, subscriptionId: string) {
-  return new Promise(async (resolve, reject) => {
-    axios.get(`https://management.azure.com/subscriptions/${subscriptionId}/providers/Microsoft.IoTCentral/IoTApps?api-version=2018-09-01`, {
-      headers: {
-        Authorization: 'Bearer ' + accessToken
-      }
-    })
-      .then((res) => {
-        resolve(res.data.value);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
-}
-
-function getCentralTemplates(apps: Array<any>, accessToken: string) {
+function getCentralData(apps: Array<any>, accessToken: string) {
   return new Promise(async (resolve, reject) => {
     const templatesMap = {};
     const validTemplates: Array<string> = [];
     const validApps: Array<any> = [];
     for (const appIndex in apps) {
-      const appId = apps[appIndex];
-      const res: any = await axios.get(`https://${appId}${Config.AppDNS}/api/preview/deviceTemplates`, { headers: { Authorization: 'Bearer ' + accessToken } })
-      for (const templateIndex in res.data.value) {
-        if (res.data.value[templateIndex].displayName === Config.template) {
-          validApps.push(appId);
-          validTemplates.push(res.data.value[templateIndex].id)
-          templatesMap[appId] = res.data.value[templateIndex].id;
-          break;
+      const appId = apps[appIndex].properties.applicationId;
+      try {
+        const res: any = await axios.get(`https://${appId}${Config.AppDNS}/api/preview/deviceTemplates`, { headers: { Authorization: 'Bearer ' + accessToken } })
+        for (const templateIndex in res.data.value) {
+          if (res.data.value[templateIndex].displayName === Config.template) {
+            validApps.push(appId);
+            validTemplates.push(res.data.value[templateIndex].id)
+            templatesMap[appId] = res.data.value[templateIndex].id;
+            break;
+          }
         }
+      } catch (err) {
+        console.log("Skipping app: " + appId);
       }
     }
     if (validTemplates.length > 0) {
@@ -89,6 +77,22 @@ function getCentralTemplates(apps: Array<any>, accessToken: string) {
 function getSubscriptionsARM(accessToken: string) {
   return new Promise(async (resolve, reject) => {
     axios.get(`https://management.azure.com/subscriptions?api-version=2020-01-01`, {
+      headers: {
+        Authorization: 'Bearer ' + accessToken
+      }
+    })
+      .then((res) => {
+        resolve(res.data.value);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}
+
+function getCentralApplicationsARM(accessToken: string, subscriptionId: string) {
+  return new Promise(async (resolve, reject) => {
+    axios.get(`https://management.azure.com/subscriptions/${subscriptionId}/providers/Microsoft.IoTCentral/IoTApps?api-version=2018-09-01`, {
       headers: {
         Authorization: 'Bearer ' + accessToken
       }
@@ -202,46 +206,30 @@ export class AuthProvider extends React.PureComponent {
 
   selectSubscription = async (subscription: any) => {
 
-    let cachedApps, cachedFilter = null;
+    let cachedApps, cachedFilter: any = null;
     try {
-      cachedApps = JSON.parse(localStorage.getItem('cachedState') as string);
-      cachedFilter = JSON.parse(localStorage.getItem('cachedFilter') as string);
+      cachedApps = localStorage.getItem('cachedState');
+      cachedFilter = localStorage.getItem('cachedFilter');
     } catch { };
 
-    if (Config.cacheAppDevices) {
-      if (cachedApps) {
-        if (Config.cacheAppFilters && cachedFilter) { cachedApps.filteredApps = cachedFilter; }
-        this.setState(cachedApps);
-        return;
-      }
+    if (Config.cacheApps && cachedApps !== null && cachedApps !== '') {
+      const newState: any = JSON.parse(cachedApps);
+      if (cachedFilter !== null && cachedFilter !== '') { newState.filteredApps = JSON.parse(cachedFilter) }
+      this.setState(newState);
+      return;
     }
 
-    let filtered: Array<string> = [];
-    if (Config.cacheAppFilters && cachedFilter) {
-      filtered = cachedFilter;
-    }
-    else {
-      for (const app in subscription.apps) {
-        filtered.push(subscription.apps[app].properties.applicationId);
-      }
-    }
-
+    const apps = Object.assign({}, subscription.apps);
     const centralToken: any = await getAccessTokenForScope(true, this.msalInstance, Scopes.Central, { account: this.state.loginAccount });
-    const templates: any = await getCentralTemplates(filtered, centralToken.accessToken)
-
-    const newApps: any = [];
-    for (const app of subscription.apps) {
-      if (templates.validApps.indexOf(app.properties.applicationId) > -1) { newApps.push(app); }
-    }
-
-    subscription.apps = newApps;
+    const central: any = await getCentralData(apps, centralToken.accessToken)
 
     const state = {
       subscription: true,
       activeSubscription: subscription,
-      filteredApps: filtered,
-      filteredAppsTemplates: templates.templatesMap,
-      validTemplates: templates.validTemplates
+      centralApps: central.validApps,
+      filteredApps: Config.cacheApps && cachedFilter !== null && cachedFilter !== '' ? JSON.parse(cachedFilter) : central.validApps,
+      filteredAppsTemplates: central.templatesMap,
+      validTemplates: central.validTemplates
     }
 
     setTimeout(() => {
@@ -282,6 +270,7 @@ export class AuthProvider extends React.PureComponent {
     return res.accessToken;
   }
 
+  // This list is contains the full list of apps per subscription
   getSubscriptionSelectorList = async () => {
     const subs: Array<any> = [];
     if (this.state.authenticated) {
@@ -291,12 +280,12 @@ export class AuthProvider extends React.PureComponent {
       }
 
       for (const i in this.state.loginSubscriptions) {
-        const sub = this.state.loginSubscriptions[i];
-        const directory = directories[sub.tenantId];
-        const armToken: any = await getAccessTokenForScope(true, this.msalInstance, Scopes.ARM, { account: this.state.loginAccount });
+        const subscription = this.state.loginSubscriptions[i];
+        const directory = directories[subscription.tenantId];
         try {
-          const apps = await getCentralApplicationsARM(armToken.accessToken, sub.subscriptionId);
-          subs.push({ directory, subscription: sub, apps });
+          const armToken: any = await getAccessTokenForScope(true, this.msalInstance, Scopes.ARM, { account: this.state.loginAccount });
+          const apps = await getCentralApplicationsARM(armToken.accessToken, subscription.subscriptionId);
+          subs.push({ directory, subscription, apps });
         } catch { console.log('no perms') }
       };
     }
@@ -310,6 +299,7 @@ export class AuthProvider extends React.PureComponent {
   state: any = {
     authenticated: false,
     subscription: false,
+    centralApps: [],
     filteredApps: [],
     filteredAppsTemplates: {},
     loginAccount: {},

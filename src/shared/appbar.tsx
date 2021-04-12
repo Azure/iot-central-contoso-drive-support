@@ -6,6 +6,7 @@ export default function AppBar({ authContext }) {
     const dom: any = [];
     for (let i in authContext.activeSubscription.apps) {
         const app = authContext.activeSubscription.apps[i];
+        if (authContext.centralApps.indexOf(app.properties.applicationId) === -1) { continue; }
         const checked = authContext.filteredApps.indexOf(app.properties.applicationId) > -1;
         dom.push(<div key={app.name} className='app'>
             <div>{app.properties.displayName}</div>
