@@ -1,8 +1,8 @@
 export const Config = {
     template: 'Contoso-Fleet-Device',
     inviteRedirectURL: 'http://localhost:4003',
-    cacheAppFilters: false,
-    cacheAppDevices: false,
+    cacheApps: false,
+    cacheDevices: false,
     AppDNS: '.azureiotcentral.com',
     AzureMapKey: '<YOUR AZURE MAPS PRIMARY KEY HERE>',
     AADLoginServer: 'https://login.microsoftonline.com',
