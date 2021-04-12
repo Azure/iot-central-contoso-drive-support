@@ -35,7 +35,7 @@ There are a couple of steps that need to be completed before running the code.
 
 * __Configure the AAD application__
 
-  You will need to have an AAD application so that an authenticated user can be authorized to use IoT Central APIs and ARM. If you have setup the support portal already, you can share the same AAD application. If you need to setup a new or different AAD application, use the following repo to guide you [Setting up an AAD application to work with IoT Central](https://github.com/iot-for-all/iot-central-aad-setup) Once you have an AAD application, change the [config.ts](/src/config.ts) file and update the following.
+  You will need to have an AAD application so that an authenticated user can be authorized to use IoT Central APIs and ARM. If you have set up the support portal already, you can share the same AAD application. If you need to set up a new or different AAD application, use the following repo to guide you: [Setting up an AAD application to work with IoT Central](https://github.com/iot-for-all/iot-central-aad-setup). Once you have an AAD application, change the [config.ts](/src/config.ts) file and update the following:
 
   ``` 
   AADClientID: '<YOUR AAD APPLICATION CLIENT ID HERE>',
@@ -44,7 +44,7 @@ There are a couple of steps that need to be completed before running the code.
 
 * __Configure Azure Maps__
 
-  You will need to add an [Azure Maps Account](https://portal.azure.com/#create/Microsoft.Maps) into your Azure Subscription (choose __Standard S0__ pricing tier). Once completed get your Primary Key from the Authentication option in Azure Portal for Azure Maps Account page and change the [config.ts](/src/config.ts) file and update the following.
+  You will need to add an [Azure Maps Account](https://portal.azure.com/#create/Microsoft.Maps) into your Azure Subscription (choose __Standard S0__ pricing tier). Once completed, get your Primary Key from the Authentication option in the Azure Maps Account page in the Azure Portal and change the [config.ts](/src/config.ts) file and update the following:
 
   ```
   AzureMapKey: '<YOUR AZURE MAPS PRIMARY KEY HERE>'
@@ -52,7 +52,7 @@ There are a couple of steps that need to be completed before running the code.
 
 ## First run
 
-On first run you will need to sign in and select the subscription the IoT Central Contoso-Drive applications have been added to. All apps in that subscription will be available but only those with the correct IoT Central device template will be used to query data. If you have followed the Learning Path module, you will be familiar with this concept.
+When you run the application for the first time, you will need to sign in and select the subscription that the IoT Central Contoso-Drive applications have been added to. All apps in that subscription will be available, but only those with the correct IoT Central device template will be used to query data. If you have followed the Learning Path module, you will be familiar with this concept.
 
 <p align="center"><img width="600px" src="images/figure2.png" /></p>
 
@@ -62,26 +62,26 @@ Once you have provided valid credentials, you will not need to re-provide these 
 
 # Regular use
 
-Once the app has been setup and is running, there are several screens that can be visited that demonstrate how to use the APIs to provide scenario specific experiences.
+Once the app has been set up and is running, there are several screens that you can visit that demonstrate how to use the APIs to provide scenario-specific experiences.
 
 ## View Map screen
-The view map screen is a visualization that spans across applications within the subscription. 
- Here devices (vehicles) are selectable which opens a side panel. Filtering the apps will remove devices from the map so the information becomes discrete.
+The View Map screen is a visualization that spans across applications within the subscription. 
+ Here, devices (vehicles) can be selected which opens a side panel. Filtering the apps will remove devices from the map so you can find relevant devices.
 
 <p align="center"><img width="700px" src="images/figure3.png" /></p>
 
 ### __Vehicle details__
-Here basic telemetry from the device can be viewed. Additionally, the device specific actions become available. The only operations that can be carried out are Diagnostics Mode (a writeable Twin property) and Reboot Device (a Direct Method). If you are using the Driver Application to provide simulation, you will see the results of these operations in that application as well as status in the details panel.
+You can view basic telemetry that the device has sent. Additionally, the device-specific actions become available. The only operations that can be carried out are Diagnostics Mode (a writeable device property) and Reboot Device (a command). If you are using the Driver Application to simulate your devices, you will see the results of these operations in that application and the status in the details panel.
 
 <p align="center"><img width="700px" src="images/figure3b.png" /></p>
 
 ## Fleet screen
-There are no real interactions on this screen other than application filtering. This screen examples how to use the IoT Central APIs to combine device property, cloud and instance data into a single view. Additionally, it demonstrate single/silent sign on deep-linking over to IoT Central to see it's version of the device's details screen.
+You can filter applications on this screen. You can use this page as an example for how to use the IoT Central APIs to combine device properties, cloud properties, and device data into a single view. Additionally, it demonstrates single/silent sign-in deep-linking over to IoT Central to see the version of the device's details screen.
 
 <p align="center"><img width="600px" src="images/figure4.png" /></p>
 
 ## Register Driver screen
-This screen is designed to demonstrate a series of API calls to create and register users into the application. This is the API orchestration.
+This screen is designed to demonstrate a series of API calls to create and register users into the application. This is the API orchestration:
 
  - Use ARM APIs to validate access to the Azure Subscription
  - Call MS Graph APIs to create a new user in the AAD directory
@@ -91,8 +91,8 @@ This screen is designed to demonstrate a series of API calls to create and regis
 
 __Before running the Driver Application, the user should be registered using this flow__
 
-### Using the register driver experience
-Follow the steps in order to register a new user. Though the  user's email address is additionally added as a Cloud Property, it offers no functionality gain and merely serves to demonstrate calling the API.
+### Using the Register Driver experience
+Follow the steps in order to register a new user. Though the user's email address is additionally added as a cloud property, it offers no functionality again and merely serves to demonstrate calling the API.
 
 <p align="center"><img width="700px" src="images/figure5.png" /></p>
 
