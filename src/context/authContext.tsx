@@ -63,33 +63,26 @@ function getCentralApplicationsARM(accessToken: string, subscriptionId: string) 
 
 function getCentralTemplates(apps: Array<any>, accessToken: string) {
   return new Promise(async (resolve, reject) => {
-    var axiosGets = apps.map((app) => {
-      return axios.get(`https://${app}${Config.AppDNS}/api/preview/deviceTemplates`, {
-        headers: {
-          Authorization: 'Bearer ' + accessToken
+    const templatesMap = {};
+    const validTemplates: Array<string> = [];
+    const validApps: Array<any> = [];
+    for (const appIndex in apps) {
+      const appId = apps[appIndex];
+      const res: any = await axios.get(`https://${appId}${Config.AppDNS}/api/preview/deviceTemplates`, { headers: { Authorization: 'Bearer ' + accessToken } })
+      for (const templateIndex in res.data.value) {
+        if (res.data.value[templateIndex].displayName === Config.template) {
+          validApps.push(appId);
+          validTemplates.push(res.data.value[templateIndex].id)
+          templatesMap[appId] = res.data.value[templateIndex].id;
+          break;
         }
-      });
-    });
-
-    axios.all(axiosGets)
-      .then((res: any) => {
-        const templatesMap = {};
-        const validTemplates: Array<string> = [];
-
-        for (const resIndex in res) {
-          for (let i = 0; i < res[resIndex].data.value.length; i++) {
-            if (res[resIndex].data.value[i].displayName === Config.template) {
-              templatesMap[apps[resIndex]] = res[resIndex].data.value[i].id;
-              validTemplates.push(res[resIndex].data.value[i].id);
-              break;
-            }
-          }
-        }
-        resolve({ templatesMap, validTemplates });
-      })
-      .catch((err) => {
-        reject(err);
-      });
+      }
+    }
+    if (validTemplates.length > 0) {
+      resolve({ templatesMap, validTemplates, validApps });
+    } else {
+      reject(Config.template + ' not found in any application')
+    }
   })
 }
 
@@ -236,6 +229,13 @@ export class AuthProvider extends React.PureComponent {
     const centralToken: any = await getAccessTokenForScope(true, this.msalInstance, Scopes.Central, { account: this.state.loginAccount });
     const templates: any = await getCentralTemplates(filtered, centralToken.accessToken)
 
+    const newApps: any = [];
+    for (const app of subscription.apps) {
+      if (templates.validApps.indexOf(app.properties.applicationId) > -1) { newApps.push(app); }
+    }
+
+    subscription.apps = newApps;
+
     const state = {
       subscription: true,
       activeSubscription: subscription,
@@ -282,7 +282,7 @@ export class AuthProvider extends React.PureComponent {
     return res.accessToken;
   }
 
-  getSubcriptionSelectorList = async () => {
+  getSubscriptionSelectorList = async () => {
     const subs: Array<any> = [];
     if (this.state.authenticated) {
       const directories = {};
@@ -294,8 +294,10 @@ export class AuthProvider extends React.PureComponent {
         const sub = this.state.loginSubscriptions[i];
         const directory = directories[sub.tenantId];
         const armToken: any = await getAccessTokenForScope(true, this.msalInstance, Scopes.ARM, { account: this.state.loginAccount });
-        const apps = await getCentralApplicationsARM(armToken.accessToken, sub.subscriptionId);
-        subs.push({ directory, subscription: sub, apps });
+        try {
+          const apps = await getCentralApplicationsARM(armToken.accessToken, sub.subscriptionId);
+          subs.push({ directory, subscription: sub, apps });
+        } catch { console.log('no perms') }
       };
     }
     return subs;
@@ -321,7 +323,7 @@ export class AuthProvider extends React.PureComponent {
     getARMAccessToken: this.getARMAccessToken,
     getGraphAccessToken: this.getGraphAccessToken,
     selectSubscription: this.selectSubscription,
-    getSubcriptionSelectorList: this.getSubcriptionSelectorList,
+    getSubscriptionSelectorList: this.getSubscriptionSelectorList,
     setAppsFilter: this.setAppsFilter
   }
 

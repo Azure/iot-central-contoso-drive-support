@@ -9,9 +9,9 @@ import React from 'react';
 
 /* API */
 
-function subsciptionsList(authContext: any) {
+function subscriptionsList(authContext: any) {
     return new Promise((resolve, reject) => {
-        authContext.getSubcriptionSelectorList()
+        authContext.getSubscriptionSelectorList()
             .then((res) => { resolve(res); })
             .catch((error) => { reject(error); });
     });
@@ -27,7 +27,7 @@ function setSubscription(authContext: any, sub: any) {
 
 /* UX */
 
-function Page({ authContext, loadingSubs, loadingSub, subscriptions, setSubcription }) {
+function Page({ authContext, loadingSubs, loadingSub, subscriptions, setSubscription }) {
 
     return <div className='subauth-page'>
         <h1>{RESX.app.title}</h1>
@@ -39,7 +39,7 @@ function Page({ authContext, loadingSubs, loadingSub, subscriptions, setSubcript
                     <h3>{RESX.subauth.subtitle}</h3>
                     <div className='subscriptions'>
                         {subscriptions && subscriptions.map((element) => {
-                            return (<button key={element.subscription.displayName} className='subscription-button' onClick={() => { setSubcription(element) }}>
+                            return (<button key={element.subscription.displayName} className='subscription-button' onClick={() => { setSubscription(element) }}>
                                 <div className='subscription-selector'>
                                     <div>{element.directory.displayName}</div>
                                     <div>{element.subscription.displayName}</div>
@@ -82,7 +82,7 @@ export default function Subauthenticated() {
     const authContext: any = React.useContext(AuthContext);
 
     const [selectedSub, setSelectedSub] = React.useState(null);
-    const [loadingSubList, subList, , loadSubList] = usePromise({ promiseFn: () => subsciptionsList(authContext) });
+    const [loadingSubList, subList, , loadSubList] = usePromise({ promiseFn: () => subscriptionsList(authContext) });
     const [loadingSub, , , loadSub] = usePromise({ promiseFn: () => setSubscription(authContext, selectedSub) });
 
     // eslint-disable-next-line
@@ -91,5 +91,5 @@ export default function Subauthenticated() {
     // eslint-disable-next-line
     React.useEffect(() => { if (!selectedSub) { return; } loadSub(); }, [selectedSub]);
 
-    return <Page authContext={authContext} loadingSubs={loadingSubList} loadingSub={loadingSub} subscriptions={subList} setSubcription={setSelectedSub} />
+    return <Page authContext={authContext} loadingSubs={loadingSubList} loadingSub={loadingSub} subscriptions={subList} setSubscription={setSelectedSub} />
 }
