@@ -1,0 +1,153 @@
+[
+    {
+      "@id": "dtmi:contosoDrive:ContosoFleetDevice;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@id": "dtmi:contosoDrive:ContosoFleetDevice:battery;1",
+          "@type": "Telemetry",
+          "displayName": {
+            "en": "Battery"
+          },
+          "name": "battery",
+          "schema": "double"
+        },
+        {
+          "@id": "dtmi:contosoDrive:ContosoFleetDevice:fuel;1",
+          "@type": "Telemetry",
+          "displayName": {
+            "en": "Fuel"
+          },
+          "name": "fuel",
+          "schema": "double"
+        },
+        {
+          "@id": "dtmi:contosoDrive:ContosoFleetDevice:location;1",
+          "@type": [
+            "Telemetry",
+            "Location"
+          ],
+          "displayName": {
+            "en": "Location"
+          },
+          "name": "location",
+          "schema": "geopoint"
+        },
+        {
+          "@id": "dtmi:contosoDrive:ContosoFleetDevice:firmware;1",
+          "@type": "Command",
+          "commandType": "synchronous",
+          "displayName": {
+            "en": "Firmware"
+          },
+          "name": "firmware",
+          "request": {
+            "@type": "CommandPayload",
+            "displayName": {
+              "en": "uri"
+            },
+            "name": "uri",
+            "schema": "string"
+          },
+          "response": {
+            "@type": "CommandPayload",
+            "displayName": {
+              "en": "res"
+            },
+            "name": "res",
+            "schema": "boolean"
+          }
+        },
+        {
+          "@id": "dtmi:contosoDrive:ContosoFleetDevice:message;1",
+          "@type": "Property",
+          "displayName": {
+            "en": "Message"
+          },
+          "name": "message",
+          "schema": "string",
+          "writable": true
+        },
+        {
+          "@id": "dtmi:contosoDrive:ContosoFleetDevice:lastConnected;1",
+          "@type": "Property",
+          "displayName": {
+            "en": "Last Connected"
+          },
+          "name": "lastConnected",
+          "schema": "dateTime",
+          "writable": false
+        },
+        {
+          "@id": "dtmi:contosoDrive:ContosoFleetDevice:GenericDevice;1",
+          "@type": [
+            "Relationship",
+            "GatewayDevice"
+          ],
+          "displayName": {
+            "en": "Generic Device"
+          },
+          "name": "GenericDevice",
+          "target": []
+        },
+        {
+          "@id": "dtmi:contosoDrive:ContosoFleetDevice:debug;1",
+          "@type": "Property",
+          "displayName": {
+            "en": "Debug"
+          },
+          "name": "debug",
+          "schema": "boolean",
+          "writable": true
+        },
+        {
+          "@id": "dtmi:contosoDrive:ContosoFleetDevice:model;1",
+          "@type": "Property",
+          "displayName": {
+            "en": "Model"
+          },
+          "name": "model",
+          "schema": "string",
+          "writable": false
+        },
+        {
+          "@id": "dtmi:contosoDrive:ContosoFleetDevice:serial;1",
+          "@type": "Property",
+          "displayName": {
+            "en": "Serial"
+          },
+          "name": "serial",
+          "schema": "string",
+          "writable": false
+        },
+        {
+          "@id": "dtmi:contosoDrive:ContosoFleetDevice:connected;1",
+          "@type": "Command",
+          "commandType": "synchronous",
+          "displayName": {
+            "en": "Connected"
+          },
+          "name": "connected"
+        },
+        {
+          "@id": "dtmi:contosoDrive:ContosoFleetDevice:temperature;1",
+          "@type": [
+            "Telemetry",
+            "Temperature"
+          ],
+          "displayName": {
+            "en": "Temperature"
+          },
+          "name": "temperature",
+          "schema": "double"
+        }
+      ],
+      "displayName": {
+        "en": "Contoso-Fleet-Device"
+      },
+      "@context": [
+        "dtmi:iotcentral:context;2",
+        "dtmi:dtdl:context;2"
+      ]
+    }
+  ]
