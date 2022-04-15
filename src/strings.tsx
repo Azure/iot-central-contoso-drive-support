@@ -14,6 +14,7 @@ export const RESX = {
         "footnote": "Can't see the Subscription or Application? Sign out and try another login"
     },
     "header": {
+        "logoAlt": "Company logo",
         "title": "Contoso-Drive Support Portal",
         "subTitle": ["Subscription: ", " Applications: "],
         "signOut": "Sign out"
@@ -51,7 +52,7 @@ export const RESX = {
             "cta": "Close details"
         }
     },
-    "driver": {
+    "user": {
         "title": "What app would you like to add this user to?",
         "title2": "What is their role?",
         "title3": "Who is the user?",
