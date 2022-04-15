@@ -58,7 +58,7 @@ function inviteUser(authContext: any, appHost: any, invitedUserEmailAddress: str
                         if (!deviceId || deviceId === '') { return; }
                         return axios.patch(`https://${appHost}/api/devices/${deviceId}/properties?api-version=1.0`,
                             {
-                                'technician': invitedUserEmailAddress
+                                'operator': invitedUserEmailAddress
                             }, { headers: { Authorization: 'Bearer ' + centralAccessToken } })
                     })
                     .then(() => {

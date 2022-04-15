@@ -175,7 +175,7 @@ export default function Map() {
         'name': deviceDetail?.displayName || '',
         'host': deviceDetail?.host || '',
         'image': deviceDetail?.image || null,
-        'properties': ['battery', 'chargeLevel', 'temperature'],
+        'properties': ['battery', 'fuel', 'temperature'],
         'propertyPositions': {
             'temperature': { left: '20%', top: '20%' },
             'chargeLevel': { left: '60%', top: '45%' },
