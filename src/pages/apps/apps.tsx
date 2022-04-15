@@ -18,7 +18,7 @@ function getUserCounts(authContext: any, applications: any) {
         try {
             for (const i in applications) {
                 const appHost = applications[i].properties.subdomain + Config.AppDNS;
-                const res = await axios.get(`https://${appHost}/api/preview/users`, { headers: { Authorization: 'Bearer ' + accessToken } })
+                const res = await axios.get(`https://${appHost}/api/users?api-version=1.0`, { headers: { Authorization: 'Bearer ' + accessToken } })
                 apps[applications[i].properties.applicationId] = res.data.value.length;
             }
             resolve(apps);
@@ -74,7 +74,7 @@ export default function Apps() {
                     <div>{app.properties.applicationId}</div>
                 </div>
             </div>
-            <a href={`https://${appHost}/admin/settings`} rel='noreferrer' target='_blank'>{RESX.apps.cta_label}</a>
+            <a href={`https://${appHost}/application/management`} rel='noreferrer' target='_blank'>{RESX.apps.cta_label}</a>
         </div>);
     }
 
