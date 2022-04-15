@@ -1,4 +1,4 @@
-import './drivers.css';
+import './users.css';
 import { RESX } from '../../strings'
 import { Config } from '../../config';
 import { Styles } from '../../shared/styles';
@@ -17,7 +17,7 @@ import React from 'react';
 function getAppRoles(authContext: any, appHost: any) {
     return new Promise(async (resolve, reject) => {
         const accessToken = await authContext.getCentralAccessToken();
-        axios.get(`https://${appHost}/api/preview/roles`, { headers: { Authorization: 'Bearer ' + accessToken } })
+        axios.get(`https://${appHost}/api/roles?api-version=1.0`, { headers: { Authorization: 'Bearer ' + accessToken } })
             .then((res) => {
                 resolve(res.data.value);
             })
@@ -39,7 +39,7 @@ function inviteUser(authContext: any, appHost: any, invitedUserEmailAddress: str
                 const inviteUrl = res.data.inviteRedeemUrl;
                 let userRes: any = {};
 
-                axios.put(`https://${appHost}/api/preview/users/${id}`,
+                axios.put(`https://${appHost}/api/users/${id}?api-version=1.0`,
                     {
                         'type': 'EmailUser',
                         'roles': [{ 'role': roleId }],
@@ -48,7 +48,7 @@ function inviteUser(authContext: any, appHost: any, invitedUserEmailAddress: str
                     .then((res) => {
                         userRes = res;
                         if (!deviceId || deviceId === '') { return; }
-                        return axios.put(`https://${appHost}/api/preview/devices/${deviceId}`,
+                        return axios.put(`https://${appHost}/api/devices/${deviceId}?api-version=1.0`,
                             {
                                 'instanceOf': templateId,
                                 'displayName': deviceId
@@ -58,7 +58,7 @@ function inviteUser(authContext: any, appHost: any, invitedUserEmailAddress: str
                         if (!deviceId || deviceId === '') { return; }
                         return axios.put(`https://${appHost}/api/preview/devices/${deviceId}/cloudProperties`,
                             {
-                                'operator': invitedUserEmailAddress
+                                'technician': invitedUserEmailAddress
                             }, { headers: { Authorization: 'Bearer ' + centralAccessToken } })
                     })
                     .then(() => {
@@ -74,7 +74,7 @@ function inviteUser(authContext: any, appHost: any, invitedUserEmailAddress: str
     });
 }
 
-export default function Drivers() {
+export default function Users() {
 
     const authContext: any = React.useContext(AuthContext);
     const [selectedApp, setSelectedApp] = React.useState<any>({});
@@ -120,53 +120,53 @@ export default function Drivers() {
         setPayload(s);
     }
 
-    return <div className='drivers-page'>
-        <h3>{RESX.driver.title}</h3>
-        <div className='form-selector drivers-selector'>
+    return <div className='users-page'>
+        <h3>{RESX.user.title}</h3>
+        <div className='form-selector users-selector'>
             {appsDom}
         </div>
 
         {Object.keys(selectedApp).length > 0 ?
             <>
-                <h3>{RESX.driver.title2}</h3>
-                <a href={`https://${appHost}/admin/roles`} rel='noreferrer' target='_blank'>{RESX.driver.cta1Label}</a>
+                <h3>{RESX.user.title2}</h3>
+                <a href={`https://${appHost}/admin/roles`} rel='noreferrer' target='_blank'>{RESX.user.cta1Label}</a>
                 <br /><br />
                 {Object.keys(selectedApp).length !== 0 && loadingRoles ? <div className='loader'><label>{RESX.app.fetching}</label><BeatLoader size='16px' /></div> :
                     <>
-                        <div className='form-selector drivers-selector'>{rolesDom}</div>
-                        <h3>{RESX.driver.title3}</h3>
+                        <div className='form-selector users-selector'>{rolesDom}</div>
+                        <h3>{RESX.user.title3}</h3>
                         <div className='form'>
                             <div className='fields'>
-                                <label>{RESX.driver.form.field1Label}</label><br />
-                                <input autoComplete='off' type='text' name='invitedUserEmailAddress' value={payload.invitedUserEmailAddress} onChange={updatePayload} placeholder={RESX.driver.form.field1Label_placeholder} />
+                                <label>{RESX.user.form.field1Label}</label><br />
+                                <input autoComplete='off' type='text' name='invitedUserEmailAddress' value={payload.invitedUserEmailAddress} onChange={updatePayload} placeholder={RESX.user.form.field1Label_placeholder} />
                             </div>
                             <div className='fields'>
-                                <label>{RESX.driver.form.field2Label}</label><br />
-                                <input autoComplete='off' type='text' name='deviceId' value={payload.deviceId} onChange={updatePayload} placeholder={RESX.driver.form.field2Label_placeholder} />
+                                <label>{RESX.user.form.field2Label}</label><br />
+                                <input autoComplete='off' type='text' name='deviceId' value={payload.deviceId} onChange={updatePayload} placeholder={RESX.user.form.field2Label_placeholder} />
                             </div>
                         </div>
                         <br />
-                        <button onClick={() => { callInviteUser() }} className='btn btn-primary'>{RESX.driver.form.cta1Label}</button>
+                        <button onClick={() => { callInviteUser() }} className='btn btn-primary'>{RESX.user.form.cta1Label}</button>
 
-                        {invitingUser ? <><div className='loader'><label>{RESX.driver.inviteWaiting}</label><BeatLoader size='16px' /></div></> : null}
+                        {invitingUser ? <><div className='loader'><label>{RESX.user.inviteWaiting}</label><BeatLoader size='16px' /></div></> : null}
 
                         {!invitingUser && inviteResponse ?
                             <div className='form'>
                                 <div className='fields'>
-                                    <label>{RESX.driver.inviteUrl}</label>
+                                    <label>{RESX.user.inviteUrl}</label>
                                     <input autoComplete='off' type='text' readOnly={true} value={inviteResponse.inviteRedeemUrl} />
                                 </div>
                                 <div className='fields'>
-                                    <label>{RESX.driver.inviteApplicationHost}</label>
+                                    <label>{RESX.user.inviteApplicationHost}</label>
                                     <input autoComplete='off' type='text' readOnly={true} value={appHost || ''} />
                                 </div>
                                 <div className='fields'>
-                                    <label>{RESX.driver.inviteDeviceId}</label>
-                                    <input autoComplete='off' type='text' readOnly={true} value={inviteResponse.deviceIdCreated} placeholder={RESX.driver.inviteNoDevice} />
+                                    <label>{RESX.user.inviteDeviceId}</label>
+                                    <input autoComplete='off' type='text' readOnly={true} value={inviteResponse.deviceIdCreated} placeholder={RESX.user.inviteNoDevice} />
                                 </div>
                             </div>
                             : null}
-                        {!invitingUser && errorInviting ? <><br /><br /><label>{RESX.driver.inviteError}</label><span className='error'>{errorInviting.response.data.error.message}</span></> : null}
+                        {!invitingUser && errorInviting ? <><br /><br /><label>{RESX.user.inviteError}</label><span className='error'>{errorInviting.response.data.error.message}</span></> : null}
                     </>}
             </>
             : null

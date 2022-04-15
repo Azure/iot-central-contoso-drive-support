@@ -11,7 +11,7 @@ import AppBar from '../../shared/appbar';
 
 import Map from '../map/map';
 import Apps from '../apps/apps';
-import Drivers from '../drivers/drivers';
+import Users from '../users/users';
 import Devices from '../devices/devices';
 
 import React from 'react';
@@ -19,8 +19,8 @@ import { Route, Redirect } from 'react-router-dom'
 
 const nav = [
     { label: RESX.navigation.menuLabels[0], icon: null, link: '/map', title: RESX.navigation.menuLabels[0] },
-    { label: RESX.navigation.menuLabels[1], icon: null, link: '/fleet', title: RESX.navigation.menuLabels[1] },
-    { label: RESX.navigation.menuLabels[2], icon: null, link: '/drivers', title: RESX.navigation.menuLabels[2] },
+    { label: RESX.navigation.menuLabels[1], icon: null, link: '/devices', title: RESX.navigation.menuLabels[1] },
+    { label: RESX.navigation.menuLabels[2], icon: null, link: '/users', title: RESX.navigation.menuLabels[2] },
     { label: RESX.navigation.menuLabels[3], icon: null, link: '/apps', title: RESX.navigation.menuLabels[3] },
 ]
 
@@ -43,10 +43,10 @@ function Page({ authContext, dataContext, loadingDevices }) {
             </div>
             <div className='workspace'>
                 <Route path='/map' component={Map} />
-                <Route path='/fleet'>
+                <Route path='/devices'>
                     <Devices authContext={authContext} dataContext={dataContext} />
                 </Route>
-                <Route path='/drivers' component={Drivers} />
+                <Route path='/users' component={Users} />
                 <Route path='/apps' component={Apps} />
                 <Route exact path='/'>
                     <Redirect to='map' />

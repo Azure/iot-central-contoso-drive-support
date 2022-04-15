@@ -1,4 +1,4 @@
-.drivers-page {
+.users-page {
     margin-top: 0.5rem;
     margin-left: 1rem;
     display: flex;
@@ -7,24 +7,24 @@
     padding-bottom: 2rem;
 }
 
-.drivers-page .drivers-selector {
+.users-page .users-selector {
     justify-content: center;
 }
 
-.drivers-page .form {
+.users-page .form {
     text-align: center;
     width: 50%;
 }
 
-.drivers-page .form .fields {
+.users-page .form .fields {
     margin-top: 1rem;
 }
 
-.drivers-page .loader {
+.users-page .loader {
     margin-top: 1rem;
 }
 
-.drivers-page .error {
+.users-page .error {
     text-align: center;
     width: 70%;
     color: var(--error-color);
