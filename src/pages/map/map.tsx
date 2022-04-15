@@ -26,21 +26,21 @@ export default function Map() {
     const authContext: any = React.useContext(AuthContext);
     const dataContext: any = React.useContext(DataContext);
 
-    const [truckDetail, setTruckDetail] = React.useState<any>(null);
+    const [deviceDetail, setDeviceDetail] = React.useState<any>(null);
     const [diagMode, setDiagMode] = React.useState<any>(true);
     const [dataSourceId, setDataSourceId] = React.useState<any>(null);
 
     const [progressCommand, resultCommand, errorCommand, executeCommand] = useCommand({
         'name': 'firmware',
         'body': {},
-        id: truckDetail?.id || null,
-        host: truckDetail?.host || null
+        id: deviceDetail?.id || null,
+        host: deviceDetail?.host || null
     });
 
     const [progressDiagnostics, resultDiagnostics, errorDiagnostics, setDesired] = useDesired({
         'body': { 'debug': diagMode },
-        id: truckDetail?.id || null,
-        host: truckDetail?.host || null
+        id: deviceDetail?.id || null,
+        host: deviceDetail?.host || null
     });
 
     React.useEffect(() => {
@@ -108,7 +108,7 @@ export default function Map() {
             azureMap.current.events.add('click', pinLayer, ((e) => {
                 if (e.shapes && e.shapes.length > 0) {
                     var properties = e.shapes[0].getProperties();
-                    setTruckDetail(properties);
+                    setDeviceDetail(properties);
                 }
             }));
 
@@ -122,7 +122,7 @@ export default function Map() {
                         var properties = e.shapes[0].getProperties();
                     } catch { }
 
-                    let text = 'No infromation yet';
+                    let text = 'No information yet';
                     if (properties && properties.location) {
                         const addr = reverse.lookup(properties.location.lat, properties.location.lon, 'us');
                         if (addr) {
@@ -160,25 +160,25 @@ export default function Map() {
     }, [dataSourceId, dataContext.devices])
 
     const updateCommand = () => {
-        if (!truckDetail) { alert(RESX.map.actions.error); return; }
+        if (!deviceDetail) { alert(RESX.map.actions.error); return; }
         executeCommand();
     }
 
     const diagnosticsMode = () => {
-        if (!truckDetail) { alert(RESX.map.actions.error); return; }
+        if (!deviceDetail) { alert(RESX.map.actions.error); return; }
         setDesired();
         setDiagMode(!diagMode); // refactor
     }
 
     const chart = {
-        'id': truckDetail?.id || '',
-        'name': truckDetail?.displayName || '',
-        'host': truckDetail?.host || '',
-        'image': truckDetail?.image || null,
-        'properties': ['battery', 'fuel', 'temperature'],
+        'id': deviceDetail?.id || '',
+        'name': deviceDetail?.displayName || '',
+        'host': deviceDetail?.host || '',
+        'image': deviceDetail?.image || null,
+        'properties': ['battery', 'chargeLevel', 'temperature'],
         'propertyPositions': {
             'temperature': { left: '20%', top: '20%' },
-            'fuel': { left: '30%', top: '40%' },
+            'chargeLevel': { left: '60%', top: '45%' },
             'battery': { right: '10%', top: '70%' },
 
         }
@@ -189,7 +189,7 @@ export default function Map() {
         <div className='content'>
             <div id='themap'></div>
 
-            {!truckDetail ? null :
+            {!deviceDetail ? null :
                 <div className='lkv-card'>
                     <LKVProcessGraphicCard
                         id={chart.id}
@@ -197,7 +197,7 @@ export default function Map() {
                         pollingIntervalMillis={15000}
                         properties={chart.properties}
                         additionalProperties={chart.propertyPositions}
-                        title={'Vehicle: ' + chart.name}
+                        title={chart.name}
                         theme={Theme.Light}
                         adapter={new IoTCentralAdapter(chart.host, authContext.sharableAuthInstance)}
                     />
@@ -206,7 +206,7 @@ export default function Map() {
                             {progressCommand ? <><ClipLoader size={16} /><span>{RESX.map.detail.firmware.progress}</span></> : (resultCommand ? RESX.map.detail.firmware.success : (errorCommand ? RESX.map.detail.firmware.error : ''))}
                             {progressDiagnostics ? <><ClipLoader size={16} /><span>{RESX.map.detail.diagnostics.progress}</span></> : (resultDiagnostics ? RESX.map.detail.diagnostics.success : (errorDiagnostics ? RESX.map.detail.diagnostics.error : ''))}
                         </div>
-                        <button className='btn btn-primary' onClick={() => { setTruckDetail(null) }}>{RESX.map.detail.cta}</button>
+                        <button className='btn btn-primary' onClick={() => { setDeviceDetail(null) }}>{RESX.map.detail.cta}</button>
                     </div>
                 </div>
             }
