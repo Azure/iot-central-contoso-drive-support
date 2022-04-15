@@ -41,7 +41,7 @@ function inviteUser(authContext: any, appHost: any, invitedUserEmailAddress: str
 
                 axios.put(`https://${appHost}/api/users/${id}?api-version=1.0`,
                     {
-                        'type': 'EmailUser',
+                        'type': 'email',
                         'roles': [{ 'role': roleId }],
                         'email': invitedUserEmailAddress
                     }, { headers: { Authorization: 'Bearer ' + centralAccessToken } })
@@ -50,13 +50,13 @@ function inviteUser(authContext: any, appHost: any, invitedUserEmailAddress: str
                         if (!deviceId || deviceId === '') { return; }
                         return axios.put(`https://${appHost}/api/devices/${deviceId}?api-version=1.0`,
                             {
-                                'instanceOf': templateId,
+                                'template': templateId,
                                 'displayName': deviceId
                             }, { headers: { Authorization: 'Bearer ' + centralAccessToken } })
                     })
                     .then(() => {
                         if (!deviceId || deviceId === '') { return; }
-                        return axios.put(`https://${appHost}/api/preview/devices/${deviceId}/cloudProperties`,
+                        return axios.patch(`https://${appHost}/api/devices/${deviceId}/properties?api-version=1.0`,
                             {
                                 'technician': invitedUserEmailAddress
                             }, { headers: { Authorization: 'Bearer ' + centralAccessToken } })
