@@ -9,4 +9,5 @@ export const Config = {
     AADClientID: '<YOUR AAD APPLICATION CLIENT ID HERE>',
     AADDirectoryID: '<YOUR ADD APPLICATION DIRECTORY ID HERE>',
     AADRedirectURI: 'http://localhost:4004',
+    logoSrc: '<YOUR LOGO FILE HERE>'
 }
