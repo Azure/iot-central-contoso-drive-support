@@ -15,6 +15,10 @@ function getProperty(object, key) {
     return object.__properties ? object.__properties[key] || null : null;
 }
 
+function getLastConnectedDate(device) {
+    return device.__properties?.$metadata.lastConnected?.lastUpdateTime;
+}
+
 export default function Devices({ authContext, dataContext }) {
 
     const appDeviceList = dataContext.devices;
@@ -34,6 +38,7 @@ export default function Devices({ authContext, dataContext }) {
         if (authContext.filteredApps.indexOf(appId) === -1) { continue; }
         const devices = appDeviceList[appId];
         const innerRows = devices.map((element: any) => {
+            const lastConnected = getLastConnectedDate(element);
             return {
                 app: apps[appId].name,
                 id: element.id,
@@ -41,11 +46,11 @@ export default function Devices({ authContext, dataContext }) {
                 provisioned: element.provisioned ? 'Yes' : 'No',
                 approved: element.approved ? 'Yes' : 'No',
                 link: `https://${apps[appId].host}${Config.AppDNS}/devices/details/${element.id}`,
-                image: getProperty(element, 'vehicleImage') || 'noimage',
+                image: getProperty(element, 'deviceImage') || 'noimage',
                 diagMode: getProperty(element, 'debug') ? 'Yes' : 'No',
                 model: getProperty(element, 'model'),
                 serial: getProperty(element, 'serial'),
-                lastConnected: getProperty(element, 'lastConnected') ? moment(getProperty(element, 'lastConnected')).startOf('day').fromNow() : 'No Date'
+                lastConnected: lastConnected ? moment(lastConnected).startOf('hour').fromNow() : 'No Date'
             }
         })
         rows = rows.concat(innerRows);
@@ -55,7 +60,7 @@ export default function Devices({ authContext, dataContext }) {
 
     let cols: any = [
         { 'Header': 'IoT Central', 'accessor': 'link', Cell: (({ value }) => { return <div className='cellwrapper cellwrapper-center' ><a href={value} rel='noreferrer' target='_blank'><FontAwesomeIcon icon={Icons.faExternalLinkAlt} /></a></div> }) },
-        { 'Header': 'Vehicle', 'accessor': 'image', Cell: (({ value }) => { return <div className='cellwrapper-img'><img src={`./${value}.png`} alt=' vehicle' /></div> }) },
+        { 'Header': 'Image', 'accessor': 'image', Cell: (({ value }) => { return <div className='cellwrapper-img'><img src={`./${value}.png`} alt=' device' /></div> }) },
         { 'Header': 'Diag Mode', 'accessor': 'diagMode', Cell: (({ value }) => { return <div className='cellwrapper cellwrapper-center'>{value}</div> }) },
         { 'Header': 'Last Connected', 'accessor': 'lastConnected', Cell: (({ value }) => { return <div className='cellwrapper'>{value}</div> }) },
         { 'Header': 'Application', 'accessor': 'app', Cell: (({ value }) => { return <div className='cellwrapper'>{value}</div> }) },
