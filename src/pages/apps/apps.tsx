@@ -18,7 +18,7 @@ function getUserCounts(authContext: any, applications: any) {
         try {
             for (const i in applications) {
                 const appHost = applications[i].properties.subdomain + Config.AppDNS;
-                const res = await axios.get(`https://${appHost}/api/users?api-version=1.0`, { headers: { Authorization: 'Bearer ' + accessToken } })
+                const res = await axios.get(`https://${appHost}/api/users?api-version=1.0`, { headers: { Authorization: 'Bearer ' + accessToken } });
                 apps[applications[i].properties.applicationId] = res.data.value.length;
             }
             resolve(apps);
@@ -32,7 +32,7 @@ function getUserCounts(authContext: any, applications: any) {
 
 export default function Apps() {
     const authContext: any = React.useContext(AuthContext);
-    const [fetchingCounts, userCounts, , fetchCounts] = usePromise({ promiseFn: () => getUserCounts(authContext, authContext.activeSubscription.apps) });
+    const [fetchingCounts, userCounts, , fetchCounts] = usePromise({ promiseFn: () => getUserCounts(authContext, (authContext.activeSubscription.apps).filter(app => authContext.filteredApps.indexOf(app.properties.applicationId) > -1)) });
 
     // eslint-disable-next-line
     React.useEffect(() => { fetchCounts(); }, [authContext, authContext.activeSubscription.apps])
