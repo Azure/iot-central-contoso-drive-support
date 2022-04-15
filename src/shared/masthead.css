@@ -8,6 +8,23 @@
     padding: 0 2rem;
 }
 
+.masthead .title-container {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.masthead .logo {
+    background-color: var(--bright-color);
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    position: relative;
+}
+
+.masthead .logo img {
+    width: 100%;
+    max-width: 100%;
+}
+
 .masthead .title {
     font-size: 1.5rem;
     line-height: 1.5rem;
