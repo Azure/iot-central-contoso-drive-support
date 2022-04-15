@@ -62,8 +62,8 @@ export default function Map() {
         }
 
         azureMap.current = new AzureMapsControl.Map('themap', {
-            center: [-122.335167, 47.608013],
-            zoom: 7,
+            center: [-101.01378456484315, 35.37158987232064],
+            zoom: 3,
             view: 'Auto',
             authOptions: {
                 authType: AzureMapsControl.AuthenticationType.subscriptionKey,
