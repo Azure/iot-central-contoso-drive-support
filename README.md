@@ -143,7 +143,8 @@ http://localhost:4004
 This application can easily be reskinned to use different colors, labels, and images.
 
 ## Colors
-Change the color values of the theme variables in `index.css` and `src/shared/styles.tsx`
+Change the color values of the theme variables in `index.css` and `src/shared/styles.tsx`.
+<p align="left"><img width="700px" src="images/cssvariables.png" /></p>
 
 ## Labels
 To change the labels, update the values in `src/strings.tsx`. Do a global search in VS Code for **RESX.** in order to find where in the code the strings are used. For example, `RESX.map.title`
