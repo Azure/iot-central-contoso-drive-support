@@ -1,5 +1,5 @@
 # Contoso-Drive Support Application
-This repo is an IoT Central companion experience which is part of a set of repos demonstrating a Fleet Management scenario. To get up and running with the full experience, visit the Learning Path [here](https://github.com/iot-for-all/companion-experiences-learning).
+This repo is an IoT Central companion experience which is part of a set of repos demonstrating a Fleet Management scenario. To get up and running with the full experience, visit the [Learning Path](https://github.com/iot-for-all/companion-experiences-learning).
 
 ## Companion experience overview
 Watch a 5 minute overview of the experience
@@ -10,20 +10,20 @@ Contoso-Drive is an example codebase and demonstration of an IoT Central compani
 
 <p align="center"><img width="600px" src="images/hero.png" /></p>
 
-The Contoso-Drive companion experience is split into three concepts
+The Contoso-Drive companion experience consists of three components:
 
 * __The Support Portal.__ This application is an example of role specific scenarios for the technician/support person of Contoso-Drive. Typically this is a desktop application and is owned, managed and deployed by the Contoso-Drive company.
 
-* __The Driver App.__ This application represents the device that sends the vehicle's telematics to IoT Central which is subsequently available in the Support Portal. Typically this is a phone acting as a gateway and is run on the driver's mobile phone or an internet accessible device. Visit [this](https://github.com/iot-for-all/contoso-drive-simulator) repo to see the Driver Application.
+* __The Driver App.__ This application represents the device that sends the vehicle's telematics to IoT Central which is subsequently available in the Support Portal. Typically this is a phone acting as a gateway and is run on the driver's mobile phone or an internet accessible device. Visit [this repo](https://github.com/iot-for-all/contoso-drive-simulator) to see the Driver Application.
 
-* __The IoT Central application(s).__ The main experience to manage the Contoso-Drive devices and admin level tasks for Contoso-Drive. It is typically used by the technician/support person and other privileged persons to perform admin level device management, insights and actions. Visit [this](https://github.com/iot-for-all/companion-experiences-learning) repo to see the Learning Path on how to set up the Contoso-Drive IoT Central applications.
+* __The IoT Central application(s).__ The main experience to manage the Contoso-Drive devices and admin level tasks for Contoso-Drive. It is typically used by the technician/support person and other privileged persons to perform admin level device management, insights and actions. Visit [this repo](https://github.com/iot-for-all/companion-experiences-learning) to see the Learning Path on how to set up the Contoso-Drive IoT Central applications.
 
 __This repo represents the Support Portal application scenario.__ 
 
 <p align="center"><img width="600px" src="images/concepts.png" /></p>
 
 # The Support Portal codebase
-The codebase is a SPA application that runs 100% in the browser. There is no server side API component. The server is only used to deliver the SPA files to the browser. All device interactions have been fully coded into the application. Therefore simulating or even using a real device will make the application functionally work as expected.
+The codebase is a single-page application (SPA) that runs 100% in the browser. There is no server side API component. The server is only used to deliver the SPA files to the browser. All device interactions have been fully coded into the application. Therefore simulating or even using a real device will make the application functionally work as expected.
 
 <p align="center"><img width="600px" src="images/figure1.png" /></p>
 
@@ -35,7 +35,9 @@ There are a couple of steps that need to be completed before running the code.
 
 * __Configure the AAD application__
 
-  You will need to have an AAD application so that an authenticated user can be authorized to use IoT Central APIs and ARM. If you have set up the support portal already, you can share the same AAD application. If you need to set up a new or different AAD application, use the following repo to guide you: [Setting up an AAD application to work with IoT Central](https://github.com/iot-for-all/iot-central-aad-setup). Once you have an AAD application, change the [config.ts](/src/config.ts) file and update the following:
+  You will need to have an AAD application so that an authenticated user can be authorized to use IoT Central APIs and ARM. If you have set up the support portal already, you can share the same AAD application. If you need to set up a new or different AAD application, use the following repo to guide you: [Setting up an AAD application to work with IoT Central](https://github.com/iot-for-all/iot-central-aad-setup). 
+  
+  Once you have an AAD application, change the [config.ts](/src/config.ts) file and update the following:
 
   ``` 
   AADClientID: '<YOUR AAD APPLICATION CLIENT ID HERE>',
@@ -52,7 +54,7 @@ There are a couple of steps that need to be completed before running the code.
 
 ## First run
 
-When you run the application for the first time, you will need to sign in and select the subscription that the IoT Central Contoso-Drive applications have been added to. All apps in that subscription will be available, but only those with the correct IoT Central device template will be used to query data. If you have followed the Learning Path module, you will be familiar with this concept.
+When you run the application for the first time, you will need to sign in and select the subscription that the IoT Central Contoso-Drive applications have been added to. All IoT Central apps in the selected subscription will be available, but only those apps that contain the Contoso-Fleet-Device device template will be used to query data. If you have followed the Learning Path module, you will be familiar with this concept.
 
 <p align="center"><img width="600px" src="images/figure2.png" /></p>
 
@@ -66,7 +68,7 @@ Once the app has been set up and is running, there are several screens that you 
 
 ## View Map screen
 The View Map screen is a visualization that spans across applications within the subscription. 
- Here, devices (vehicles) can be selected which opens a side panel. Filtering the apps will remove devices from the map so you can find relevant devices.
+ Here, devices (vehicles) can be selected which opens a side panel. Filtering the apps by clicking on the toggle beside the app name (upper left) will remove devices from the map so you can find relevant devices.
 
 <p align="center"><img width="700px" src="images/figure3.png" /></p>
 
@@ -76,7 +78,7 @@ You can view basic telemetry that the device has sent. Additionally, the device-
 <p align="center"><img width="700px" src="images/figure3b.png" /></p>
 
 ## Fleet screen
-You can filter applications on this screen. You can use this page as an example for how to use the IoT Central APIs to combine device properties, cloud properties, and device data into a single view. Additionally, it demonstrates single/silent sign-in deep-linking over to IoT Central to see the version of the device's details screen.
+You can filter applications on this screen. You can use this page as an example for how to use the IoT Central APIs to combine device properties, cloud properties, and device data into a single view. Additionally, the link in the first column demonstrates single/silent sign-in deep-linking over to IoT Central to see the version of the device's details screen.
 
 <p align="center"><img width="600px" src="images/figure4.png" /></p>
 
@@ -92,7 +94,11 @@ This screen is designed to demonstrate a series of API calls to create and regis
 __Before running the Driver Application, the user should be registered using this flow__
 
 ### Using the Register Driver experience
-Follow the steps in order to register a new user. Though the user's email address is additionally added as a cloud property, it offers no functionality again and merely serves to demonstrate calling the API.
+1. Select the IoT Central app where the driver (user) should be added. 
+2. Select the drivers's role within the IoT Central application.
+3. Add the driver's email address. This email address is added as a cloud property to the specified device (next step); it offers no functionality and merely serves to demonstrate calling the API.
+4. Optionally assign a device to the driver.
+5. Click **Register user**.
 
 <p align="center"><img width="700px" src="images/figure5.png" /></p>
 
@@ -131,3 +137,24 @@ npm start
 ``` 
 http://localhost:4004
 ````
+
+# How to Re-Skin the application
+
+This application can easily be reskinned to use different colors, labels, and images.
+
+## Colors
+Change the color values of the theme variables in `index.css` and `src/shared/styles.tsx`
+
+## Labels
+To change the labels, update the values in `src/strings.tsx`. Do a global search in VS Code for **RESX.** in order to find where in the code the strings are used. For example, `RESX.map.title`
+<p align="left"><img width="500px" src="images/stringsnippet.png" /></p>
+is used in the **View Map** header. 
+<p align="left"><img width="350px" src="images/codesnippet.png" /></p>
+<p align="left"><img width="700px" src="images/mapheader.png" /></p>
+
+
+## Images
+A logo image can be added to the header by placing the image in the `/public` folder, then updating the `logoSrc` setting in `src/config.ts`.
+
+The images shown in the Fleet (devices) grid and in the View Map - Details panel are also stored in the `public` folder. For each device in your IoT Central application, enter the name of the image file for that device in the 'deviceImage' writeable cloud property that you added to the device template.
+<p align="left"><img width="700px" src="images/figure4.png" /></p>
