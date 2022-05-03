@@ -16,7 +16,7 @@ function getProperty(object, key) {
 }
 
 function getLastConnectedDate(device) {
-    return device.__properties?.$metadata.lastConnected?.lastUpdateTime;
+    return device.__properties?.$metadata?.lastConnected?.lastUpdateTime;
 }
 
 export default function Devices({ authContext, dataContext }) {
