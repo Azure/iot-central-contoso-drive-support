@@ -14,6 +14,18 @@ function postAPICall(api, payload: any, accessToken: string, put?: boolean) {
     });
 }
 
+function patchAPICall(api, payload: any, accessToken: string) {
+    return new Promise(async (resolve, reject) => {
+        axios['patch'](api, payload, {
+            headers: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        })
+            .then((res) => { resolve(res); })
+            .catch((err) => { console.warn(err); reject(err); });
+    });
+}
+
 function makeAPICall(api, accessToken: string) {
     return new Promise(async (resolve, reject) => {
         axios.get(api, {
@@ -157,7 +169,7 @@ export class DataProvider extends React.PureComponent {
     }
 
     sendDesired = async (host: string, id: string, payload: any, token: string) => {
-        const response = await postAPICall(`https://${host}/api/devices/${id}/properties?api-version=1.0`, payload, token, true);
+        const response = await patchAPICall(`https://${host}/api/devices/${id}/properties?api-version=1.0`, payload, token);
         return response;
     }
 
