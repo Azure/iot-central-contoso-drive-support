@@ -74,7 +74,7 @@ async function getMapData(token: string, templates: any, appDevices: Array<any>,
                         host: `${appId}${Config.AppDNS}`,
                         displayName: devices[device]['displayName'],
                         location: telemetry.data.value,
-                        image: devices[device]['__properties'] ? devices[device]['__properties']['deviceImage'] : null
+                        image: devices[device]['__properties'] ? devices[device]['__properties']['deviceImage'] || devices[device]['__properties']['vehicleImage'] : null
                     })
                 };
             } else { continue; }

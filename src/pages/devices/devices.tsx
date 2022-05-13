@@ -39,6 +39,7 @@ export default function Devices({ authContext, dataContext }) {
         const devices = appDeviceList[appId];
         const innerRows = devices.map((element: any) => {
             const lastConnected = getLastConnectedDate(element);
+            const deviceImage = getProperty(element, 'deviceImage') || getProperty(element, 'vehicleImage');
             return {
                 app: apps[appId].name,
                 id: element.id,
@@ -46,7 +47,7 @@ export default function Devices({ authContext, dataContext }) {
                 provisioned: element.provisioned ? 'Yes' : 'No',
                 approved: element.approved ? 'Yes' : 'No',
                 link: `https://${apps[appId].host}${Config.AppDNS}/devices/details/${element.id}`,
-                image: getProperty(element, 'deviceImage') || 'noimage',
+                image: deviceImage || 'noimage',
                 diagMode: getProperty(element, 'debug') ? 'Yes' : 'No',
                 model: getProperty(element, 'model'),
                 serial: getProperty(element, 'serial'),
@@ -60,7 +61,7 @@ export default function Devices({ authContext, dataContext }) {
 
     let cols: any = [
         { 'Header': 'IoT Central', 'accessor': 'link', Cell: (({ value }) => { return <div className='cellwrapper cellwrapper-center' ><a href={value} rel='noreferrer' target='_blank'><FontAwesomeIcon icon={Icons.faExternalLinkAlt} /></a></div> }) },
-        { 'Header': 'Image', 'accessor': 'image', Cell: (({ value }) => { return <div className='cellwrapper-img'><img src={`./${value}.png`} alt=' device' /></div> }) },
+        { 'Header': 'Image', 'accessor': 'image', Cell: (({ value }) => { return <div className='cellwrapper-img'><img src={`./${value}`} alt=' device' /></div> }) },
         { 'Header': 'Diag Mode', 'accessor': 'diagMode', Cell: (({ value }) => { return <div className='cellwrapper cellwrapper-center'>{value}</div> }) },
         { 'Header': 'Last Connected', 'accessor': 'lastConnected', Cell: (({ value }) => { return <div className='cellwrapper'>{value}</div> }) },
         { 'Header': 'Application', 'accessor': 'app', Cell: (({ value }) => { return <div className='cellwrapper'>{value}</div> }) },

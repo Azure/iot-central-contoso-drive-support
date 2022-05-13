@@ -193,7 +193,7 @@ export default function Map() {
                 <div className='lkv-card'>
                     <LKVProcessGraphicCard
                         id={chart.id}
-                        imageSrc={`/${chart.image}.png`}
+                        imageSrc={`/${chart.image}`}
                         pollingIntervalMillis={15000}
                         properties={chart.properties}
                         additionalProperties={chart.propertyPositions}
