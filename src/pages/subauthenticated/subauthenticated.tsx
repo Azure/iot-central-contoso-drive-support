@@ -4,6 +4,7 @@ import { Styles } from '../../shared/styles';
 import { AuthContext } from '../../context/authContext';
 import usePromise from '../../hooks/usePromise';
 import BeatLoader from 'react-spinners/BeatLoader';
+
 import React from 'react';
 
 /* API */
