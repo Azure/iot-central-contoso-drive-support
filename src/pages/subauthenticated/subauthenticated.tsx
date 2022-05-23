@@ -4,7 +4,6 @@ import { Styles } from '../../shared/styles';
 import { AuthContext } from '../../context/authContext';
 import usePromise from '../../hooks/usePromise';
 import BeatLoader from 'react-spinners/BeatLoader';
-import Authenticated from '../../pages/authenticated/authenticated'
 import React from 'react';
 
 /* API */
@@ -90,11 +89,5 @@ export default function Subauthenticated() {
 
     // eslint-disable-next-line
     React.useEffect(() => { if (!selectedSub) { return; } loadSub(); }, [selectedSub]);
-    if(selectedSub != null) {
-        
-        authContext.activeSubscription = selectedSub;
-        authContext.subscription = selectedSub;
-        return <Authenticated />
-    }
     return <Page authContext={authContext} loadingSubs={loadingSubList} loadingSub={loadingSub} subscriptions={subList} setSubscription={setSelectedSub} />
 }
