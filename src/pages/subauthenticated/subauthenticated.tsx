@@ -79,8 +79,7 @@ function Page({ authContext, loadingSubs, loadingSub, subscriptions, setSubscrip
 /* Render */
 
 export default function Subauthenticated() {
-    const authContext: any = React.useContext(AuthContext);
-    
+    const authContext: any = React.useContext(AuthContext);    
     const [selectedSub, setSelectedSub] = React.useState(null);
     const [loadingSubList, subList, , loadSubList] = usePromise({ promiseFn: () => subscriptionsList(authContext) });
     const [loadingSub, , , loadSub] = usePromise({ promiseFn: () => setSubscription(authContext, selectedSub) });
@@ -90,5 +89,6 @@ export default function Subauthenticated() {
 
     // eslint-disable-next-line
     React.useEffect(() => { if (!selectedSub) { return; } loadSub(); }, [selectedSub]);
+    
     return <Page authContext={authContext} loadingSubs={loadingSubList} loadingSub={loadingSub} subscriptions={subList} setSubscription={setSelectedSub} />
 }
