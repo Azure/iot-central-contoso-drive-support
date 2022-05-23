@@ -89,6 +89,6 @@ export default function Subauthenticated() {
 
     // eslint-disable-next-line
     React.useEffect(() => { if (!selectedSub) { return; } loadSub(); }, [selectedSub]);
-    
+
     return <Page authContext={authContext} loadingSubs={loadingSubList} loadingSub={loadingSub} subscriptions={subList} setSubscription={setSelectedSub} />
 }
