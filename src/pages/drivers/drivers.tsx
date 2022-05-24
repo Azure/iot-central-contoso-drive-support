@@ -39,9 +39,9 @@ function inviteUser(authContext: any, appHost: any, invitedUserEmailAddress: str
                 const inviteUrl = res.data.inviteRedeemUrl;
                 let userRes: any = {};
 
-                axios.put(`https://${appHost}/api/preview/users/${id}`,
+                axios.put(`https://${appHost}/api/users/${id}?api-version=${Config.APIVersion}`,
                     {
-                        'type': 'EmailUser',
+                        'type': 'email',
                         'roles': [{ 'role': roleId }],
                         'email': invitedUserEmailAddress
                     }, { headers: { Authorization: 'Bearer ' + centralAccessToken } })
