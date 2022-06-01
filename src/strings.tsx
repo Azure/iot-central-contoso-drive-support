@@ -21,7 +21,7 @@ export const RESX = {
     "navigation": {
         "title1": "Fleet Applications",
         "title2": "Menu",
-        "menuLabels": ["View Map", "Fleet", "Register Driver", "Manage Apps"]
+        "menuLabels": ["View Map", "Fleet", "Register Driver", "Manage Apps", "Jobs"]
     },
     "apps": {
         "users": "USERS",
@@ -73,6 +73,10 @@ export const RESX = {
     },
     "devices": {
         "title": "Select the application you wish to see a device list for",
+        "cta_label": "Visit this app's IoT Central devices page"
+    },
+    "jobs": {
+        "title": "List of Jobs",
         "cta_label": "Visit this app's IoT Central devices page"
     }
 } 
