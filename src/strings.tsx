@@ -76,7 +76,8 @@ export const RESX = {
         "cta_label": "Visit this app's IoT Central devices page"
     },
     "jobs": {
-        "title": "List of Jobs",
+        "title": "What app would you like to view jobs for?",
+        "title2": "List of Jobs",
         "cta_label": "Visit this app's IoT Central devices page"
     }
 } 
