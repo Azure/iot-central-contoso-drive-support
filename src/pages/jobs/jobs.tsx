@@ -1,4 +1,4 @@
-import './drivers.css';
+import './jobs.css';
 import { RESX } from '../../strings'
 import { Config } from '../../config';
 import { Styles } from '../../shared/styles';
@@ -8,20 +8,26 @@ import BeatLoader from 'react-spinners/BeatLoader';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as Icons from '@fortawesome/free-solid-svg-icons'
+// import ReactTable from 'react-table-v6';
+// import 'react-table-v6/react-table.css';
+
 
 import axios from 'axios';
 import React from 'react';
 
 /* API */
 
-function getAppRoles(authContext: any, appHost: any) {
+function getJobs(authContext: any, appHost: any) {
     return new Promise(async (resolve, reject) => {
         const accessToken = await authContext.getCentralAccessToken();
-        axios.get(`https://${appHost}/api/roles?api-version=${Config.APIVersion}`, { headers: { Authorization: 'Bearer ' + accessToken } })
+        axios.get(`https://${appHost}/api/jobs?api-version=${Config.APIVersion}`, { headers: { Authorization: 'Bearer ' + accessToken } })
             .then((res) => {
+                console.log('res', res);
+                console.log(res.data.value);
                 resolve(res.data.value);
             })
             .catch((error) => {
+                console.log('error', error);
                 reject(error);
             });
     });
@@ -74,21 +80,61 @@ function inviteUser(authContext: any, appHost: any, invitedUserEmailAddress: str
     });
 }
 
-export default function Drivers() {
+export default function Jobs() {
 
+    console.log("In the console");
     const authContext: any = React.useContext(AuthContext);
     const [selectedApp, setSelectedApp] = React.useState<any>({});
     const [selectedRoleId, setSelectedRoleId] = React.useState<any>('');
     const [payload, setPayload] = React.useState<any>({});
 
+    // const app = authContext.activeSubscription.apps[0];
+    // var settedApp = setSelectedApp(app)
     const appHost = selectedApp.properties ? selectedApp.properties.subdomain + Config.AppDNS : null;
     const templateId = selectedApp.properties ? authContext.filteredAppsTemplates[selectedApp.properties.applicationId] || null : null;
 
-    const [loadingRoles, appRoles, , fetchRoles] = usePromise({ promiseFn: () => getAppRoles(authContext, appHost) });
+    // const [loadingJobs, appJobs, , fetchJobs] = usePromise({ promiseFn: () => getJobs(authContext, appHost) });
+    const [loadingJobs, appJobs, , fetchJobs] = usePromise({ promiseFn: () => getJobs(authContext, appHost) });
     const [invitingUser, inviteResponse, errorInviting, callInviteUser] = usePromise({ promiseFn: () => inviteUser(authContext, appHost, payload.invitedUserEmailAddress, payload.deviceId, templateId, selectedRoleId) });
 
     // eslint-disable-next-line
-    React.useEffect(() => { if (appHost) { fetchRoles(); } }, [selectedApp])
+    React.useEffect(() => { if (appHost) { fetchJobs(); } }, [selectedApp])
+
+    // // var loadData = getJobs(authContext, appHost);
+    // // console.log('loadData', loadData);
+
+    // let cols: any = [
+    //     { 'Header': 'Job Id', 'accessor': 'id', Cell: (({ value }) => { return <div className='cellwrapper cellwrapper-center'>{value}</div> }) },
+    //     { 'Header': 'Display Name', 'accessor': 'displayName', Cell: (({ value }) => { return <div className='cellwrapper'>{value}</div> }) },
+    //     { 'Header': 'Group', 'accessor': 'group', Cell: (({ value }) => { return <div className='cellwrapper'>{value}</div> }) },
+    //     { 'Header': 'Data', 'accessor': 'data', Cell: (({ value }) => { return <div className='cellwrapper'>{value}</div> }) },
+    //     { 'Header': 'Status', 'accessor': 'status', Cell: (({ value }) => { return <div className='cellwrapper'>{value}</div> }) },
+    // ]
+    // let rows = [];
+    // for (const appJobId in appJobs) {
+    //     console.log('appJobId', appJobId);
+    //     if (appJobs.indexOf(appJobId) === -1) { continue; }
+    //     const innerRows = appJobs.map((element: any) => {
+    //         return {
+    //             id: element.id,
+    //             displayName: element.displayName,
+    //             group: element.group,
+    //             data: element.data,
+    //             status: element.status,
+    //         }
+    //     })
+    //     rows = rows.concat(innerRows);
+    // }
+    // console.log('Rows', rows);
+
+    // return <div className='jobs-page'>
+    //     <h3>{RESX.jobs.title}</h3>
+    //     <ReactTable loading={loadingJobs || (appJobs && Object.keys(appJobs).length > 0 ? false : true)} noDataText='' data={rows} columns={cols} showPagination={true} />
+
+    // </div>
+    // return <div className='jobs-page'>
+    //     <h3>{RESX.jobs.title}</h3>
+    // </div>    
 
     const appsDom: any = [];
     for (const a in authContext.activeSubscription.apps) {
@@ -103,37 +149,38 @@ export default function Drivers() {
         </div >)
     }
 
-    const rolesDom: any = [];
-    for (const r in appRoles) {
-        const role = appRoles[r];
-        rolesDom.push(<div key={role.id} className='template-selector-card'>
+    const jobsDom: any = [];
+
+    for (const r in appJobs) {
+        const role = appJobs[r];
+        jobsDom.push(<div key={role.id} className='template-selector-card'>
             <button className='btn btn-selector' onClick={() => { setSelectedRoleId(role.id) }}>
                 <div><FontAwesomeIcon icon={Icons.faCheck} size='3x' color={selectedRoleId !== '' && selectedRoleId === role.id ? Styles.successColorAlt : Styles.brightColorDim} /></div>
                 <div>{role.displayName}</div>
             </button>
         </div >)
     }
-
+    
     const updatePayload = (e) => {
         const s: any = Object.assign({}, payload);
         s[e.target.name] = e.target.value;
         setPayload(s);
     }
 
-    return <div className='drivers-page'>
-        <h3>{RESX.driver.title}</h3>
-        <div className='form-selector drivers-selector'>
+    return <div className='jobs-page'>
+        <h3>{RESX.jobs.title}</h3>
+        <div className='form-selector jobs-selector'>
             {appsDom}
         </div>
 
         {Object.keys(selectedApp).length > 0 ?
             <>
-                <h3>{RESX.driver.title2}</h3>
+                <h3>{RESX.jobs.title2} for {selectedApp.properties.displayName} </h3>
                 <a href={`https://${appHost}/admin/roles`} rel='noreferrer' target='_blank'>{RESX.driver.cta1Label}</a>
                 <br /><br />
-                {Object.keys(selectedApp).length !== 0 && loadingRoles ? <div className='loader'><label>{RESX.app.fetching}</label><BeatLoader size='16px' /></div> :
+                {Object.keys(selectedApp).length !== 0 && loadingJobs ? <div className='loader'><label>{RESX.app.fetching}</label><BeatLoader size='16px' /></div> :
                     <>
-                        <div className='form-selector drivers-selector'>{rolesDom}</div>
+                        <div className='form-selector jobs-selector'>{jobsDom}</div>
                         <h3>{RESX.driver.title3}</h3>
                         <div className='form'>
                             <div className='fields'>
@@ -171,5 +218,5 @@ export default function Drivers() {
             </>
             : null
         }
-    </div>
+    </div>    
 }

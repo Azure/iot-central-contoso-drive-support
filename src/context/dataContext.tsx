@@ -31,7 +31,7 @@ async function getDevicesForApps(apps: Array<string>, domain: string, token: str
         const appDevices = {};
         try {
             for (const appId in apps) {
-                const res: any = await makeAPICall(`https://${apps[appId]}${domain}/api/preview/devices`, token)
+                const res: any = await makeAPICall(`https://${apps[appId]}${domain}/api/devices?api-version=${Config.APIVersion}`, token)
                 appDevices[apps[appId]] = res.data.value;
             }
             resolve(appDevices);
@@ -41,11 +41,10 @@ async function getDevicesForApps(apps: Array<string>, domain: string, token: str
 
 async function getDeviceProperty(appId: string, domain: string, deviceId: string, token: string) {
     return new Promise(async (resolve, reject) => {
-        let res1, res2: any = null;
+        let res1: any = null;
         try {
-            res1 = await makeAPICall(`https://${appId}${domain}/api/preview/devices/${deviceId}/properties`, token)
-            res2 = await makeAPICall(`https://${appId}${domain}/api/preview/devices/${deviceId}/cloudProperties`, token)
-            resolve(Object.assign({}, res1.data || {}, res2.data || {}));
+            res1 = await makeAPICall(`https://${appId}${domain}/api/devices/${deviceId}/properties?api-version=${Config.APIVersion}`, token)
+            resolve(Object.assign({}, res1.data || {}));
         } catch (err) { console.warn(err); reject(err); }
     })
 }
@@ -64,7 +63,7 @@ async function getMapData(token: string, templates: any, appDevices: Array<any>,
         const devices = appDevices[appId];
         for (const device in devices) {
             if (validTemplates.indexOf(devices[device]['instanceOf']) > -1) {
-                const telemetry: any = await makeAPICall(`https://${appId}${Config.AppDNS}/api/preview/devices/${devices[device]['id']}/telemetry/location`, token);
+                const telemetry: any = await makeAPICall(`https://${appId}${Config.AppDNS}/api/devices/${devices[device]['id']}/telemetry/location?api-version=${Config.APIVersion}`, token);
 
                 if (telemetry?.data?.value) {
                     locations.push(telemetry.data.value);
@@ -152,12 +151,12 @@ export class DataProvider extends React.PureComponent {
     }
 
     sendCommand = async (host: string, id: string, name: string, body: any, token: string) => {
-        const response = await postAPICall(`https://${host}/api/preview/devices/${id}/commands/${name}`, body, token);
+        const response = await postAPICall(`https://${host}/api/devices/${id}/commands/${name}?api-version=${Config.APIVersion}`, body, token);
         return response;
     }
 
     sendDesired = async (host: string, id: string, payload: any, token: string) => {
-        const response = await postAPICall(`https://${host}/api/preview/devices/${id}/properties`, payload, token, true);
+        const response = await postAPICall(`https://${host}/api/devices/${id}/properties?api-version=${Config.APIVersion}`, payload, token, true);
         return response;
     }
 
