@@ -17,7 +17,7 @@ import React from 'react';
 function getAppRoles(authContext: any, appHost: any) {
     return new Promise(async (resolve, reject) => {
         const accessToken = await authContext.getCentralAccessToken();
-        axios.get(`https://${appHost}/api/preview/roles`, { headers: { Authorization: 'Bearer ' + accessToken } })
+        axios.get(`https://${appHost}/api/roles?api-version=${Config.APIVersion}`, { headers: { Authorization: 'Bearer ' + accessToken } })
             .then((res) => {
                 resolve(res.data.value);
             })
@@ -48,7 +48,7 @@ function inviteUser(authContext: any, appHost: any, invitedUserEmailAddress: str
                     .then((res) => {
                         userRes = res;
                         if (!deviceId || deviceId === '') { return; }
-                        return axios.put(`https://${appHost}/api/preview/devices/${deviceId}`,
+                        return axios.put(`https://${appHost}/api/devices/${deviceId}?api-version=${Config.APIVersion}`,
                             {
                                 'instanceOf': templateId,
                                 'displayName': deviceId

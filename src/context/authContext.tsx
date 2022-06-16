@@ -53,7 +53,7 @@ function getCentralData(apps: Array<any>, accessToken: string) {
     for (const appIndex in apps) {
       const appId = apps[appIndex].properties.applicationId;
       try {
-        const res: any = await axios.get(`https://${appId}${Config.AppDNS}/api/preview/deviceTemplates`, { headers: { Authorization: 'Bearer ' + accessToken } })
+        const res: any = await axios.get(`https://${appId}${Config.AppDNS}/api/deviceTemplates?api-version=${Config.APIVersion}`, { headers: { Authorization: 'Bearer ' + accessToken } })
         for (const templateIndex in res.data.value) {
           if (res.data.value[templateIndex].displayName === Config.template) {
             validApps.push(appId);
