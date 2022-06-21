@@ -55,13 +55,6 @@ function inviteUser(authContext: any, appHost: any, invitedUserEmailAddress: str
                             }, { headers: { Authorization: 'Bearer ' + centralAccessToken } })
                     })
                     .then(() => {
-                        if (!deviceId || deviceId === '') { return; }
-                        return axios.put(`https://${appHost}/api/preview/devices/${deviceId}/cloudProperties`,
-                            {
-                                'operator': invitedUserEmailAddress
-                            }, { headers: { Authorization: 'Bearer ' + centralAccessToken } })
-                    })
-                    .then(() => {
                         resolve(Object.assign({}, userRes.data, { inviteRedeemUrl: inviteUrl, deviceIdCreated: deviceId }))
                     })
                     .catch((error) => {

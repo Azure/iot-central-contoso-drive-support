@@ -41,11 +41,10 @@ async function getDevicesForApps(apps: Array<string>, domain: string, token: str
 
 async function getDeviceProperty(appId: string, domain: string, deviceId: string, token: string) {
     return new Promise(async (resolve, reject) => {
-        let res1, res2: any = null;
+        let res: any = null;
         try {
-            res1 = await makeAPICall(`https://${appId}${domain}/api/devices/${deviceId}/properties?api-version=${Config.APIVersion}`, token)
-            res2 = await makeAPICall(`https://${appId}${domain}/api/preview/devices/${deviceId}/cloudProperties`, token)
-            resolve(Object.assign({}, res1.data || {}, res2.data || {}));
+            res = await makeAPICall(`https://${appId}${domain}/api/devices/${deviceId}/properties?api-version=${Config.APIVersion}`, token)
+            resolve(Object.assign({}, res.data || {}));
         } catch (err) { console.warn(err); reject(err); }
     })
 }
