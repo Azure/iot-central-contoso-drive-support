@@ -33,52 +33,6 @@ function getJobs(authContext: any, appHost: any) {
     });
 }
 
-function inviteUser(authContext: any, appHost: any, invitedUserEmailAddress: string, deviceId: string, templateId: string, roleId: string) {
-    return new Promise(async (resolve, reject) => {
-        const accessToken = await authContext.getGraphAccessToken();
-        axios.post(`https://graph.microsoft.com/v1.0/invitations`, { 'invitedUserEmailAddress': invitedUserEmailAddress, 'inviteRedirectUrl': Config.inviteRedirectURL }, { headers: { Authorization: 'Bearer ' + accessToken } })
-            .then(async (res) => {
-                if (res.data.status !== 'PendingAcceptance') { reject('Rejecting for: ' + res.data.status); return; }
-
-                const centralAccessToken = await authContext.getCentralAccessToken();
-                const id = res.data.invitedUser.id;
-                const inviteUrl = res.data.inviteRedeemUrl;
-                let userRes: any = {};
-
-                axios.put(`https://${appHost}/api/users/${id}?api-version=${Config.APIVersion}`,
-                    {
-                        'type': 'email',
-                        'roles': [{ 'role': roleId }],
-                        'email': invitedUserEmailAddress
-                    }, { headers: { Authorization: 'Bearer ' + centralAccessToken } })
-                    .then((res) => {
-                        userRes = res;
-                        if (!deviceId || deviceId === '') { return; }
-                        return axios.put(`https://${appHost}/api/devices/${deviceId}?api-version=${Config.APIVersion}`,
-                            {
-                                'instanceOf': templateId,
-                                'displayName': deviceId
-                            }, { headers: { Authorization: 'Bearer ' + centralAccessToken } })
-                    })
-                    .then(() => {
-                        if (!deviceId || deviceId === '') { return; }
-                        return axios.put(`https://${appHost}/api/devices/${deviceId}/cloudProperties`,
-                            {
-                                'operator': invitedUserEmailAddress
-                            }, { headers: { Authorization: 'Bearer ' + centralAccessToken } })
-                    })
-                    .then(() => {
-                        resolve(Object.assign({}, userRes.data, { inviteRedeemUrl: inviteUrl, deviceIdCreated: deviceId }))
-                    })
-                    .catch((error) => {
-                        reject(error);
-                    });
-            })
-            .catch((error) => {
-                reject(error);
-            });
-    });
-}
 function addJob(authContext: any, appHost: any, addJobDisplayName: string, addJobGroup: string, guid: string) {
     return new Promise(async (resolve, reject) => {
         const centralAccessToken = await authContext.getCentralAccessToken();
@@ -99,21 +53,16 @@ function addJob(authContext: any, appHost: any, addJobDisplayName: string, addJo
 }
 export default function Jobs() {
 
-    console.log("In the console");
     const authContext: any = React.useContext(AuthContext);
     const [selectedApp, setSelectedApp] = React.useState<any>({});
     const [selectedRoleId, setSelectedRoleId] = React.useState<any>('');
     const [payload, setPayload] = React.useState<any>({});
 
-    // const app = authContext.activeSubscription.apps[0];
-    // var settedApp = setSelectedApp(app)
     const appHost = selectedApp.properties ? selectedApp.properties.subdomain + Config.AppDNS : null;
     const templateId = selectedApp.properties ? authContext.filteredAppsTemplates[selectedApp.properties.applicationId] || null : null;
-    const guid = "dce8ace2-bb76-4c48-b9ea-7dd25b647ac4";
+    const guid = "dce8ace2-bb76-4c48-b9ea-7dd25b647ac6";
 
-    // const [loadingJobs, appJobs, , fetchJobs] = usePromise({ promiseFn: () => getJobs(authContext, appHost) });
     const [loadingJobs, appJobs, , fetchJobs] = usePromise({ promiseFn: () => getJobs(authContext, appHost) });
-    const [invitingUser, inviteResponse, errorInviting, callInviteUser] = usePromise({ promiseFn: () => inviteUser(authContext, appHost, payload.invitedUserEmailAddress, payload.deviceId, templateId, selectedRoleId) });
     const [addingJob, addJobResponse, errorAddingJob, callAddJob] = usePromise({ promiseFn: () => addJob(authContext, appHost, payload.addJobDisplayName, payload.addJobGroup, guid) });
 
     // eslint-disable-next-line
@@ -223,25 +172,6 @@ export default function Jobs() {
                         <br />
                         <button onClick={() => { callAddJob() }} className='btn btn-primary'>{RESX.jobs.form.cta1Label}</button>
 
-                        {invitingUser ? <><div className='loader'><label>{RESX.driver.inviteWaiting}</label><BeatLoader size='16px' /></div></> : null}
-
-                        {!invitingUser && inviteResponse ?
-                            <div className='form'>
-                                <div className='fields'>
-                                    <label>{RESX.driver.inviteUrl}</label>
-                                    <input autoComplete='off' type='text' readOnly={true} value={inviteResponse.inviteRedeemUrl} />
-                                </div>
-                                <div className='fields'>
-                                    <label>{RESX.driver.inviteApplicationHost}</label>
-                                    <input autoComplete='off' type='text' readOnly={true} value={appHost || ''} />
-                                </div>
-                                <div className='fields'>
-                                    <label>{RESX.driver.inviteDeviceId}</label>
-                                    <input autoComplete='off' type='text' readOnly={true} value={inviteResponse.deviceIdCreated} placeholder={RESX.driver.inviteNoDevice} />
-                                </div>
-                            </div>
-                            : null}
-                        {!invitingUser && errorInviting ? <><br /><br /><label>{RESX.driver.inviteError}</label><span className='error'>{errorInviting.response.data.error.message}</span></> : null}
                     </>}
             </>
             : null
