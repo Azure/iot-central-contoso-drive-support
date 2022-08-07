@@ -15,6 +15,8 @@ import * as Icons from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
 import React from 'react';
 
+import {v4 as uuidv4} from 'uuid';
+
 /* API */
 
 function getJobs(authContext: any, appHost: any) {
@@ -60,14 +62,14 @@ export default function Jobs() {
 
     const appHost = selectedApp.properties ? selectedApp.properties.subdomain + Config.AppDNS : null;
     const templateId = selectedApp.properties ? authContext.filteredAppsTemplates[selectedApp.properties.applicationId] || null : null;
-    const guid = "dce8ace2-bb76-4c48-b9ea-7dd25b647ac6";
+    let guid = uuidv4();
 
     const [loadingJobs, appJobs, , fetchJobs] = usePromise({ promiseFn: () => getJobs(authContext, appHost) });
     const [addingJob, addJobResponse, errorAddingJob, callAddJob] = usePromise({ promiseFn: () => addJob(authContext, appHost, payload.addJobDisplayName, payload.addJobGroup, guid) });
 
     // eslint-disable-next-line
     React.useEffect(() => { if (appHost) { fetchJobs(); } }, [selectedApp])
-    
+
     const appsDom: any = [];
     for (const a in authContext.activeSubscription.apps) {
         const app = authContext.activeSubscription.apps[a]
