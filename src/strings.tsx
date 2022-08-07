@@ -88,5 +88,7 @@ export const RESX = {
             "field2Label_placeholder": "Enter group associated with the new job",
             "cta1Label": "Add new job"
         },
+        "jobAdding": "Creating job",
+        "jobAddingError": "Job Adding Error",
     }
 } 

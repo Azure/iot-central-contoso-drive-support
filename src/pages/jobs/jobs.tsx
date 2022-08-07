@@ -24,8 +24,6 @@ function getJobs(authContext: any, appHost: any) {
         const accessToken = await authContext.getCentralAccessToken();
         axios.get(`https://${appHost}/api/jobs?api-version=${Config.PreviewAPIVersion}`, { headers: { Authorization: 'Bearer ' + accessToken } })
             .then((res) => {
-                console.log('res', res);
-                console.log(res.data.value);
                 resolve(res.data.value);
             })
             .catch((error) => {
@@ -47,7 +45,11 @@ function addJob(authContext: any, appHost: any, addJobDisplayName: string, addJo
             }, { headers: { Authorization: 'Bearer ' + centralAccessToken } })
             .then((res) => {
                 jobRes = res;
+                addJobGroup = ''
             })
+            .then(() => {
+                resolve(Object.assign({}, jobRes.data));
+            })            
             .catch((error) => {
                 reject(error);
             });
@@ -57,11 +59,9 @@ export default function Jobs() {
 
     const authContext: any = React.useContext(AuthContext);
     const [selectedApp, setSelectedApp] = React.useState<any>({});
-    const [selectedRoleId, setSelectedRoleId] = React.useState<any>('');
     const [payload, setPayload] = React.useState<any>({});
 
     const appHost = selectedApp.properties ? selectedApp.properties.subdomain + Config.AppDNS : null;
-    const templateId = selectedApp.properties ? authContext.filteredAppsTemplates[selectedApp.properties.applicationId] || null : null;
     let guid = uuidv4();
 
     const [loadingJobs, appJobs, , fetchJobs] = usePromise({ promiseFn: () => getJobs(authContext, appHost) });
@@ -172,7 +172,13 @@ export default function Jobs() {
                             </div>
                         </div>
                         <br />
-                        <button onClick={() => { callAddJob() }} className='btn btn-primary'>{RESX.jobs.form.cta1Label}</button>
+                        <button onClick={() => { callAddJob(); }} className='btn btn-primary'>{RESX.jobs.form.cta1Label}</button>
+                        {addingJob ? <><div className='loader'><label>{RESX.jobs.jobAdding}</label><BeatLoader size='16px' /></div></> : null}
+
+                        {!addingJob && addJobResponse ?
+                            <br></br>
+                            : null}
+                        {!addingJob && errorAddingJob ? <><br /><br /><label>{RESX.jobs.jobAddingError}</label><span className='error'>{errorAddingJob.response.data.error.message}</span></> : null}
 
                     </>}
             </>
