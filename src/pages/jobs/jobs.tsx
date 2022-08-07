@@ -118,43 +118,7 @@ export default function Jobs() {
 
     // eslint-disable-next-line
     React.useEffect(() => { if (appHost) { fetchJobs(); } }, [selectedApp])
-
-    // // var loadData = getJobs(authContext, appHost);
-    // // console.log('loadData', loadData);
-
-    // let cols: any = [
-    //     { 'Header': 'Job Id', 'accessor': 'id', Cell: (({ value }) => { return <div className='cellwrapper cellwrapper-center'>{value}</div> }) },
-    //     { 'Header': 'Display Name', 'accessor': 'displayName', Cell: (({ value }) => { return <div className='cellwrapper'>{value}</div> }) },
-    //     { 'Header': 'Group', 'accessor': 'group', Cell: (({ value }) => { return <div className='cellwrapper'>{value}</div> }) },
-    //     { 'Header': 'Data', 'accessor': 'data', Cell: (({ value }) => { return <div className='cellwrapper'>{value}</div> }) },
-    //     { 'Header': 'Status', 'accessor': 'status', Cell: (({ value }) => { return <div className='cellwrapper'>{value}</div> }) },
-    // ]
-    // let rows = [];
-    // for (const appJobId in appJobs) {
-    //     console.log('appJobId', appJobId);
-    //     if (appJobs.indexOf(appJobId) === -1) { continue; }
-    //     const innerRows = appJobs.map((element: any) => {
-    //         return {
-    //             id: element.id,
-    //             displayName: element.displayName,
-    //             group: element.group,
-    //             data: element.data,
-    //             status: element.status,
-    //         }
-    //     })
-    //     rows = rows.concat(innerRows);
-    // }
-    // console.log('Rows', rows);
-
-    // return <div className='jobs-page'>
-    //     <h3>{RESX.jobs.title}</h3>
-    //     <ReactTable loading={loadingJobs || (appJobs && Object.keys(appJobs).length > 0 ? false : true)} noDataText='' data={rows} columns={cols} showPagination={true} />
-
-    // </div>
-    // return <div className='jobs-page'>
-    //     <h3>{RESX.jobs.title}</h3>
-    // </div>    
-
+    
     const appsDom: any = [];
     for (const a in authContext.activeSubscription.apps) {
         const app = authContext.activeSubscription.apps[a]
