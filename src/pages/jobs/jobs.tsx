@@ -155,11 +155,8 @@ export default function Jobs() {
 
         {Object.keys(selectedApp).length > 0 ?
             <>
-                <h3>{RESX.jobs.title2} for {selectedApp.properties.displayName} </h3>
-                <br /><br />
                 {Object.keys(selectedApp).length !== 0 && loadingJobs ? <div className='loader'><label>{RESX.app.fetching}</label><BeatLoader size='16px' /></div> :
                     <>
-                        <div className='form-selector jobs-selector'>{jobsDom}</div>
                         <h3>{RESX.jobs.title3}</h3>
                         <div className='form'>
                             <div className='fields'>
@@ -179,7 +176,10 @@ export default function Jobs() {
                             <br></br>
                             : null}
                         {!addingJob && errorAddingJob ? <><br /><br /><label>{RESX.jobs.jobAddingError}</label><span className='error'>{errorAddingJob.response.data.error.message}</span></> : null}
+                        <br /><br />
+                        <h3>{RESX.jobs.title2} for {selectedApp.properties.displayName} </h3>
 
+                        <div className='form-selector jobs-selector'>{jobsDom}</div>
                     </>}
             </>
             : null
