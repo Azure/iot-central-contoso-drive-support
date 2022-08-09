@@ -10,5 +10,5 @@ export const Config = {
     AADDirectoryID: '<YOUR ADD APPLICATION DIRECTORY ID HERE>',
     AADRedirectURI: 'http://localhost:4004',
     APIVersion: '2022-05-31',
-    PreviewAPIVersion: '1.2-preview'
+    PreviewAPIVersion: '2022-06-30-preview'
 }
