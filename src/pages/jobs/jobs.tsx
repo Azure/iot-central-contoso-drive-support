@@ -22,7 +22,7 @@ import {v4 as uuidv4} from 'uuid';
 function getJobs(authContext: any, appHost: any) {
     return new Promise(async (resolve, reject) => {
         const accessToken = await authContext.getCentralAccessToken();
-        axios.get(`https://${appHost}/api/jobs?api-version=${Config.PreviewAPIVersion}`, { headers: { Authorization: 'Bearer ' + accessToken } })
+        axios.get(`https://${appHost}/api/jobs?api-version=${Config.APIVersion}`, { headers: { Authorization: 'Bearer ' + accessToken } })
             .then((res) => {
                 resolve(res.data.value);
             })
@@ -132,6 +132,23 @@ export default function Jobs() {
                                 <div>Job ID</div>
                                 <div>{job.id}</div>
                             </div>
+                            <div className='field'>
+                                <div>Progress</div>
+                                <div className='data-table'>            
+                                    <div className='field'>
+                                        <div>Total: {job.progress.total}</div>
+                                    </div>                
+                                <div className='field'>
+                                    <div>Pending: {job.progress.pending}</div>
+                                </div>                
+                                <div className='field'>
+                                    <div>Completed: {job.progress.completed}</div>
+                                </div>                
+                                <div className='field'>
+                                    <div>Failed: {job.progress.failed}</div>
+                                </div>                                
+                                </div>
+                            </div>                              
                             {jobsDataDom}
                         </div>
                     </div>
