@@ -3,6 +3,7 @@ import { RESX } from '../../strings'
 import { Config } from '../../config';
 import { Styles } from '../../shared/styles';
 import { AuthContext } from '../../context/authContext';
+import { DataContext } from '../../context/dataContext';
 import usePromise from '../../hooks/usePromise';
 import BeatLoader from 'react-spinners/BeatLoader';
 
@@ -58,9 +59,19 @@ function addJob(authContext: any, appHost: any, addJobDisplayName: string, addJo
 export default function Jobs() {
 
     const authContext: any = React.useContext(AuthContext);
+    const dataContext: any = React.useContext(DataContext);
     const [selectedApp, setSelectedApp] = React.useState<any>({});
     const [payload, setPayload] = React.useState<any>({});
 
+    const appDeviceList = dataContext.devices;
+    const deviceTemplatesDom: any = [];
+    for (const appId in appDeviceList) {
+        if (authContext.filteredApps.indexOf(appId) === -1) { continue; }
+        const devices = appDeviceList[appId];
+        devices.forEach(element => {
+            deviceTemplatesDom.push(<option value={element.template}>{element.displayName}</option>);
+        });
+    }    
     const appHost = selectedApp.properties ? selectedApp.properties.subdomain + Config.AppDNS : null;
     let guid = uuidv4();
 
@@ -184,6 +195,29 @@ export default function Jobs() {
                                 <label>{RESX.jobs.form.field2Label}</label><br />
                                 <input autoComplete='off' type='text' name='addJobGroup' value={payload.addJobGroup} onChange={updatePayload} placeholder={RESX.jobs.form.field2Label_placeholder} />
                             </div>
+                            <div className='fields'>
+                                <label>{RESX.jobs.form.field4Label}</label><br />     
+                                <select onChange={updatePayload}>
+                                    <option selected disabled>
+                                        Choose one of the device templates
+                                    </option>                                    
+                                    {deviceTemplatesDom}
+                                </select>              
+                            </div>
+
+                            <div className='fields'>
+                                <label>{RESX.jobs.form.field3Label}</label><br />
+                                <select onChange={updatePayload}>
+                                    <option selected disabled>
+                                        Choose one of the job type example
+                                    </option>
+                                    <option value="cloudProperty">Cloud property example</option>
+                                    <option value="property">Property example</option>
+                                    <option value="command">Command example</option>
+                                </select>
+
+                            </div>
+
                         </div>
                         <br />
                         <button onClick={() => { callAddJob(); }} className='btn btn-primary'>{RESX.jobs.form.cta1Label}</button>

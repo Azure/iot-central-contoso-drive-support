@@ -213,6 +213,19 @@ button:focus {
   box-shadow: 0 0 0.25rem 0 var(--box-shadow-color);
 }
 
+
+.form .fields select {
+  height: 2.5rem;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  width: 100%;
+  color: var(--sub-main-accent-color);
+  background-color: var(--bright-color);
+  border: solid 1px var(--sub-main-accent-color);
+}
+
 /* loader */
 
 .loader {

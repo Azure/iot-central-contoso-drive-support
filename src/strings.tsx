@@ -86,6 +86,10 @@ export const RESX = {
             "field1Label_placeholder": "Enter a valid job name",
             "field2Label": "Group",
             "field2Label_placeholder": "Enter group associated with the new job",
+            "field3Label": "Job Type",
+            "field3Label_placeholder": "Select a job type",
+            "field4Label": "Device Template",
+            "field4Label_placeholder": "Select a device template",
             "cta1Label": "Add new job"
         },
         "jobAdding": "Creating job",
