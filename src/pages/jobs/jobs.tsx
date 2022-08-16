@@ -69,7 +69,7 @@ export default function Jobs() {
         if (authContext.filteredApps.indexOf(appId) === -1) { continue; }
         const devices = appDeviceList[appId];
         devices.forEach(element => {
-            deviceTemplatesDom.push(<option value={element.displayName + element.template}>{element.displayName}</option>);
+            deviceTemplatesDom.push(<option value={element.template}>{element.displayName}</option>);
         });
     }    
     const appHost = selectedApp.properties ? selectedApp.properties.subdomain + Config.AppDNS : null;
