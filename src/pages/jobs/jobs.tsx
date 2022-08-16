@@ -69,7 +69,7 @@ export default function Jobs() {
         if (authContext.filteredApps.indexOf(appId) === -1) { continue; }
         const devices = appDeviceList[appId];
         devices.forEach(element => {
-            deviceTemplatesDom.push(<option value={element.template}>{element.displayName}</option>);
+            deviceTemplatesDom.push(<option value={element.displayName + element.template}>{element.displayName}</option>);
         });
     }    
     const appHost = selectedApp.properties ? selectedApp.properties.subdomain + Config.AppDNS : null;
@@ -197,10 +197,7 @@ export default function Jobs() {
                             </div>
                             <div className='fields'>
                                 <label>{RESX.jobs.form.field4Label}</label><br />     
-                                <select onChange={updatePayload}>
-                                    <option selected disabled>
-                                        Choose one of the device templates
-                                    </option>                                    
+                                <select onChange={updatePayload}>                                
                                     {deviceTemplatesDom}
                                 </select>              
                             </div>
@@ -208,9 +205,6 @@ export default function Jobs() {
                             <div className='fields'>
                                 <label>{RESX.jobs.form.field3Label}</label><br />
                                 <select onChange={updatePayload}>
-                                    <option selected disabled>
-                                        Choose one of the job type example
-                                    </option>
                                     <option value="cloudProperty">Cloud property example</option>
                                     <option value="property">Property example</option>
                                     <option value="command">Command example</option>
