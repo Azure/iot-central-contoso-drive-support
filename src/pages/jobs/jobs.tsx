@@ -56,6 +56,24 @@ function addJob(authContext: any, appHost: any, addJobDisplayName: string, addJo
             });
     });
 }
+
+function getDeviceGroups(authContext: any, appHost: any) {
+    return new Promise(async (resolve, reject) => {
+        const accessToken = await authContext.getCentralAccessToken();
+        if(appHost) {
+        axios.get(`https://${appHost}/api/deviceGroups?api-version=${Config.APIVersion}`, { headers: { Authorization: 'Bearer ' + accessToken } })
+            .then((res) => {
+                resolve(res.data.value);
+            })
+            .catch((error) => {
+                console.log('error', error);
+                reject(error);
+            });
+        }
+    });
+}
+
+
 export default function Jobs() {
 
     const authContext: any = React.useContext(AuthContext);
@@ -77,9 +95,11 @@ export default function Jobs() {
 
     const [loadingJobs, appJobs, , fetchJobs] = usePromise({ promiseFn: () => getJobs(authContext, appHost) });
     const [addingJob, addJobResponse, errorAddingJob, callAddJob] = usePromise({ promiseFn: () => addJob(authContext, appHost, payload.addJobDisplayName, payload.addJobGroup, guid) });
+    const [, deviceGroups, , fetchDeviceGroups] = usePromise({ promiseFn: () => getDeviceGroups(authContext, appHost) });
 
     // eslint-disable-next-line
     React.useEffect(() => { if (appHost) { fetchJobs(); } }, [selectedApp])
+    React.useEffect(() => { fetchDeviceGroups(); }, [authContext, appHost])
 
     const appsDom: any = [];
     for (const a in authContext.activeSubscription.apps) {
@@ -92,6 +112,14 @@ export default function Jobs() {
                 <div>{app.properties.displayName}</div>
             </button>
         </div >)
+    }
+
+    const deviceGroupsDom: any = [];
+    if(deviceGroups) {
+        for(const dg in deviceGroups) {
+            const deviceGroup = deviceGroups[dg];
+            deviceGroupsDom.push(<option value={deviceGroup.id}>{deviceGroup.displayName}</option>);
+        }
     }
 
     const jobsDom: any = [];
@@ -193,6 +221,9 @@ export default function Jobs() {
                             </div>
                             <div className='fields'>
                                 <label>{RESX.jobs.form.field2Label}</label><br />
+                                <select onChange={updatePayload}>                                
+                                    {deviceGroupsDom}
+                                </select>                                        
                                 <input autoComplete='off' type='text' name='addJobGroup' value={payload.addJobGroup} onChange={updatePayload} placeholder={RESX.jobs.form.field2Label_placeholder} />
                             </div>
                             <div className='fields'>

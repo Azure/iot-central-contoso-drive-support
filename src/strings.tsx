@@ -84,7 +84,7 @@ export const RESX = {
         "form": {
             "field1Label": "New job name",
             "field1Label_placeholder": "Enter a valid job name",
-            "field2Label": "Group",
+            "field2Label": "Device Group",
             "field2Label_placeholder": "Enter group associated with the new job",
             "field3Label": "Job Type",
             "field3Label_placeholder": "Select a job type",
