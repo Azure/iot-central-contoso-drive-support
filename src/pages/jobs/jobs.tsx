@@ -34,19 +34,18 @@ function getJobs(authContext: any, appHost: any) {
     });
 }
 
-function addJob(authContext: any, appHost: any, addJobDisplayName: string, addJobGroup: string, guid: string) {
+function addJob(authContext: any, appHost: any, addJobDisplayName: string, guid: string, deviceGroup: string, deviceTemplate: string, jobType: string) {
     return new Promise(async (resolve, reject) => {
         const centralAccessToken = await authContext.getCentralAccessToken();
         let jobRes: any = {};
         axios.put(`https://${appHost}/api/jobs/${guid}?api-version=${Config.PreviewAPIVersion}`,
             {
                 'displayName': addJobDisplayName,
-                'group': addJobGroup,
-                'data': [{ 'type': 'property', 'target': 'dtmi:modelDefinition:kzgfrbf:h4izex7s0i0', 'path': 'debug', 'value': 'updated value' }]
+                'group': deviceGroup,
+                'data': [{ 'type': jobType, 'target': deviceTemplate, 'path': 'debug', 'value': 'updated value' }]
             }, { headers: { Authorization: 'Bearer ' + centralAccessToken } })
             .then((res) => {
                 jobRes = res;
-                addJobGroup = ''
             })
             .then(() => {
                 resolve(Object.assign({}, jobRes.data));
@@ -94,7 +93,7 @@ export default function Jobs() {
     let guid = uuidv4();
 
     const [loadingJobs, appJobs, , fetchJobs] = usePromise({ promiseFn: () => getJobs(authContext, appHost) });
-    const [addingJob, addJobResponse, errorAddingJob, callAddJob] = usePromise({ promiseFn: () => addJob(authContext, appHost, payload.addJobDisplayName, payload.addJobGroup, guid) });
+    const [addingJob, addJobResponse, errorAddingJob, callAddJob] = usePromise({ promiseFn: () => addJob(authContext, appHost, payload.addJobDisplayName, guid, payload.deviceGroup, payload.deviceTemplate, payload.jobType) });
     const [, deviceGroups, , fetchDeviceGroups] = usePromise({ promiseFn: () => getDeviceGroups(authContext, appHost) });
 
     // eslint-disable-next-line
@@ -221,21 +220,30 @@ export default function Jobs() {
                             </div>
                             <div className='fields'>
                                 <label>{RESX.jobs.form.field2Label}</label><br />
-                                <select onChange={updatePayload}>                                
+                                <select onChange={updatePayload} name='deviceGroup' defaultValue={RESX.jobs.form.field2Label_placeholder}>
+                                    <option disabled hidden>
+                                    {RESX.jobs.form.field2Label_placeholder}
+                                    </option>                               
                                     {deviceGroupsDom}
                                 </select>                                        
-                                <input autoComplete='off' type='text' name='addJobGroup' value={payload.addJobGroup} onChange={updatePayload} placeholder={RESX.jobs.form.field2Label_placeholder} />
                             </div>
                             <div className='fields'>
                                 <label>{RESX.jobs.form.field4Label}</label><br />     
-                                <select onChange={updatePayload}>                                
-                                    {deviceTemplatesDom}
+                                <select onChange={updatePayload} name='deviceTemplate' defaultValue={RESX.jobs.form.field4Label_placeholder}>
+                                <option disabled hidden>
+                                    {RESX.jobs.form.field4Label_placeholder}
+                                </option>
+                                {deviceTemplatesDom}
                                 </select>              
                             </div>
 
                             <div className='fields'>
                                 <label>{RESX.jobs.form.field3Label}</label><br />
-                                <select onChange={updatePayload}>
+                                <select onChange={updatePayload} name='jobType'  defaultValue={RESX.jobs.form.field3Label_placeholder}>
+                                    <option disabled hidden>
+                                        {RESX.jobs.form.field3Label_placeholder}
+                                    </option>
+
                                     <option value="cloudProperty">Cloud property example</option>
                                     <option value="property">Property example</option>
                                     <option value="command">Command example</option>
