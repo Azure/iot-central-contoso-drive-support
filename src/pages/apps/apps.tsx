@@ -18,7 +18,7 @@ function getUserCounts(authContext: any, applications: any) {
         try {
             for (const i in applications) {
                 const appHost = applications[i].properties.subdomain + Config.AppDNS;
-                const res = await axios.get(`https://${appHost}/api/preview/users`, { headers: { Authorization: 'Bearer ' + accessToken } })
+                const res = await axios.get(`https://${appHost}/api/users?api-version=${Config.APIVersion}`, { headers: { Authorization: 'Bearer ' + accessToken } })
                 apps[applications[i].properties.applicationId] = res.data.value.length;
             }
             resolve(apps);

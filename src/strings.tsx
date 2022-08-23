@@ -21,7 +21,7 @@ export const RESX = {
     "navigation": {
         "title1": "Fleet Applications",
         "title2": "Menu",
-        "menuLabels": ["View Map", "Fleet", "Register Driver", "Manage Apps"]
+        "menuLabels": ["View Map", "Fleet", "Register Driver", "Manage Apps", "Jobs"]
     },
     "apps": {
         "users": "USERS",
@@ -74,5 +74,25 @@ export const RESX = {
     "devices": {
         "title": "Select the application you wish to see a device list for",
         "cta_label": "Visit this app's IoT Central devices page"
+    },
+    "jobs": {
+        "title": "What app would you like to add or view jobs for?",
+        "title2": "List of Jobs",
+        "title3": "Add new Job",
+        "title4": "Job Name",
+        "cta_label": "Visit this app's IoT Central devices page",
+        "form": {
+            "field1Label": "New job name",
+            "field1Label_placeholder": "Enter a valid job name",
+            "field2Label": "Device Group",
+            "field2Label_placeholder": "Select a device group",
+            "field3Label": "Job Type",
+            "field3Label_placeholder": "Select a job type",
+            "field4Label": "Device Template",
+            "field4Label_placeholder": "Select a device template",
+            "cta1Label": "Add new job"
+        },
+        "jobAdding": "Creating job",
+        "jobAddingError": "Job Adding Error",
     }
 } 
