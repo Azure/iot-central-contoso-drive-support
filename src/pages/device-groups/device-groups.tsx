@@ -34,15 +34,16 @@ function getDeviceGroups(authContext: any, appHost: any) {
     });
 }
 
-function addDeviceGroup(authContext: any, appHost: any, deviceGroupDisplayName: string, guid: string, deviceGroup: string, deviceTemplate: string, jobType: string) {
+function addDeviceGroup(authContext: any, appHost: any, deviceGroupId: string, deviceGroupDisplayName: string, deviceGroupDescription: string, deviceTemplate: string) {
     return new Promise(async (resolve, reject) => {
         const centralAccessToken = await authContext.getCentralAccessToken();
         let deviceGroupRes: any = {};
-        axios.put(`https://${appHost}/api/devicegroups/${guid}?api-version=${Config.PreviewAPIVersion}`,
+        let filterValue = "SELECT * FROM devices WHERE $template = \"" + deviceTemplate + "\"";
+        axios.put(`https://${appHost}/api/deviceGroups/${deviceGroupId}?api-version=${Config.APIVersion}`,
             {
                 'displayName': deviceGroupDisplayName,
-                'group': deviceGroup,
-                'data': [{ 'type': jobType, 'target': deviceTemplate, 'path': 'debug', 'value': 'updated value' }]
+                'description': deviceGroupDescription,
+                'filter': filterValue
             }, { headers: { Authorization: 'Bearer ' + centralAccessToken } })
             .then((res) => {
                 deviceGroupRes = res;
@@ -76,6 +77,7 @@ export default function DeviceGroups() {
     let guid = uuidv4();
 
     const [loadingDeviceGroups, appDeviceGroups, , fetchDeviceGroups] = usePromise({ promiseFn: () => getDeviceGroups(authContext, appHost) });
+    const [addingDeviceGroup, addDeviceGroupResponse, errorAddingDeviceGroup, callAddDeviceGroup] = usePromise({ promiseFn: () => addDeviceGroup(authContext, appHost, payload.deviceGroupId, payload.deviceGroupDisplayName, payload.deviceGroupDescription, payload.deviceTemplate) });
 
     // eslint-disable-next-line
     React.useEffect(() => { if (appHost) { fetchDeviceGroups(); } }, [selectedApp])
@@ -133,17 +135,16 @@ export default function DeviceGroups() {
                         <div className='form'>
                             <div className='fields'>
                                 <label>{RESX.devicegroups.form.field1Label}</label><br />
-                                <input autoComplete='off' type='text' name='deviceGroupDisplayName' value={payload.deviceGroupDisplayName} onChange={updatePayload} placeholder={RESX.jobs.form.field1Label_placeholder} />
+                                <input autoComplete='off' type='text' name='deviceGroupDisplayName' value={payload.deviceGroupDisplayName} onChange={updatePayload} placeholder={RESX.devicegroups.form.field1Label_placeholder} />
                             </div>
                             <div className='fields'>
                                 <label>{RESX.devicegroups.form.field2Label}</label><br />
-                                <select onChange={updatePayload} name='deviceGroup' defaultValue={RESX.devicegroups.form.field2Label_placeholder}>
-                                    <option disabled hidden>
-                                    {RESX.devicegroups.form.field2Label_placeholder}
-                                    </option>                               
-                                    {deviceGroupsDom}
-                                </select>                                        
-                            </div>
+                                <input autoComplete='off' type='text' name='deviceGroupDescription' value={payload.deviceGroupDescription} onChange={updatePayload} placeholder={RESX.devicegroups.form.field2Label_placeholder} />
+                            </div>               
+                            <div className='fields'>
+                                <label>{RESX.devicegroups.form.field3Label}</label><br />
+                                <input autoComplete='off' type='text' name='deviceGroupId' value={payload.deviceGroupId} onChange={updatePayload} placeholder={RESX.devicegroups.form.field3Label_placeholder} />
+                            </div>                                         
                             <div className='fields'>
                                 <label>{RESX.devicegroups.form.field4Label}</label><br />     
                                 <select onChange={updatePayload} name='deviceTemplate' defaultValue={RESX.devicegroups.form.field4Label_placeholder}>
@@ -155,6 +156,15 @@ export default function DeviceGroups() {
                             </div>
                         </div>
                         <br />
+                        <button onClick={() => { callAddDeviceGroup(); }} className='btn btn-primary'>{RESX.devicegroups.form.cta1Label}</button>
+                        {addingDeviceGroup ? <><div className='loader'><label>{RESX.devicegroups.deviceGroupAdding}</label><BeatLoader size='16px' /></div></> : null}
+
+                        {!addingDeviceGroup && addDeviceGroupResponse ?
+                            <br></br>
+                            : null}
+                        {!addingDeviceGroup && errorAddingDeviceGroup ? <><br /><br /><label>{RESX.devicegroups.deviceGroupAddingError}</label><span className='error'>{errorAddingDeviceGroup.response.data.error.message}</span></> : null}
+                        <br /><br />
+
                         <h3>{RESX.devicegroups.title2} for {selectedApp.properties.displayName} </h3>
 
                         <div className='form-selector device-groups-selector'>{deviceGroupsDom}</div>

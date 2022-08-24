@@ -98,19 +98,19 @@ export const RESX = {
     "devicegroups": {
         "title": "What app would you like to add or view device groups for?",
         "title2": "List of Device Groups",
-        "title3": "Add new Job",
-        "title4": "Job Name",
+        "title3": "Add new Device Group",
+        "title4": "Device Group Name",
         "cta_label": "Visit this app's IoT Central devices page",
         "form": {
-            "field1Label": "New device group name",
+            "field1Label": "Device group name",
             "field1Label_placeholder": "Enter a valid device group name",
-            "field2Label": "Device Group",
-            "field2Label_placeholder": "Select a device group",
-            "field3Label": "Job Type",
-            "field3Label_placeholder": "Select a job type",
+            "field2Label": "Device Group description",
+            "field2Label_placeholder": "Enter a valid device group description",
+            "field3Label": "Device Group Id",
+            "field3Label_placeholder": "Enter a valid device group id",
             "field4Label": "Device Template",
             "field4Label_placeholder": "Select a device template",
-            "cta1Label": "Add new job"
+            "cta1Label": "Add new device group"
         },
         "deviceGroupAdding": "Creating device group",
         "deviceGroupAddingError": "Device Group Adding Error",
