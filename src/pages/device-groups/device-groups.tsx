@@ -104,8 +104,22 @@ export default function DeviceGroups() {
                     <div>
                         <div>
                             <div>
-                                <div>{deviceGroup.displayName}</div>
-                                <div className='name'>{deviceGroup.description}</div>
+                            <div className="field">
+                                    <div>Id</div>
+                                    <div>{deviceGroup.id}</div>
+                                </div>
+                                <div className="field">
+                                    <div>Name</div>
+                                    <div>{deviceGroup.displayName}</div>
+                                </div>
+                                <div className="field">
+                                    <div>Description</div>
+                                    <div>{deviceGroup.description}</div>
+                                </div>
+                                <div className="field">
+                                    <div>Filter</div>
+                                    <div>{deviceGroup.filter}</div>
+                                </div>                                                                
                             </div>
                         </div>
                     </div>
