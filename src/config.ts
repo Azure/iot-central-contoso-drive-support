@@ -1,13 +1,13 @@
 export const Config = {
-    template: 'ContosoFleetDeviceTemplate',
+    template: 'Contoso-Fleet-Device',
     inviteRedirectURL: 'http://localhost:4003',
     cacheApps: false,
     cacheDevices: false,
     AppDNS: '.azureiotcentral.com',
-    AzureMapKey: 'Jo-YB6T5-zyaTNFEpsrw0hhfKeOQEiS75sgnhW5AeEM',
+    AzureMapKey: '<YOUR AZURE MAPS PRIMARY KEY HERE>',
     AADLoginServer: 'https://login.microsoftonline.com',
-    AADClientID: 'a4053c26-9a03-4da0-ad09-d3fd6c20dfd1',
-    AADDirectoryID: '45701924-7470-4053-9891-bf15db60eb00',
+    AADClientID: '<YOUR AAD APPLICATION CLIENT ID HERE>',
+    AADDirectoryID: '<YOUR ADD APPLICATION DIRECTORY ID HERE>',
     AADRedirectURI: 'http://localhost:4004',
     APIVersion: '2022-07-31',
     PreviewAPIVersion: '2022-06-30-preview'
