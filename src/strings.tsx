@@ -21,7 +21,7 @@ export const RESX = {
     "navigation": {
         "title1": "Fleet Applications",
         "title2": "Menu",
-        "menuLabels": ["View Map", "Fleet", "Register Driver", "Manage Apps", "Jobs", "Device Groups"]
+        "menuLabels": ["View Map", "Fleet", "Register Driver", "Manage Apps", "Jobs", "Vehicle Groups"]
     },
     "apps": {
         "users": "USERS",
@@ -96,23 +96,23 @@ export const RESX = {
         "jobAddingError": "Job Adding Error",
     },
     "devicegroups": {
-        "title": "What app would you like to add or view device groups for?",
-        "title2": "List of Device Groups",
-        "title3": "Add new Device Group",
-        "title4": "Device Group Name",
+        "title": "What app would you like to add or view vehicle groups for?",
+        "title2": "List of Vehicle Groups",
+        "title3": "Add new Vehicle Group",
+        "title4": "Vehicle Group Name",
         "cta_label": "Visit this app's IoT Central devices page",
         "form": {
-            "field1Label": "Device group name",
-            "field1Label_placeholder": "Enter a valid device group name",
-            "field2Label": "Device Group description",
-            "field2Label_placeholder": "Enter a valid device group description",
-            "field3Label": "Device Group Id",
-            "field3Label_placeholder": "Enter a valid device group id",
+            "field1Label": "Vehicle group name",
+            "field1Label_placeholder": "Enter a valid vehicle group name",
+            "field2Label": "Vehicle Group description",
+            "field2Label_placeholder": "Enter a valid vehicle group description",
+            "field3Label": "Vehicle Group Id",
+            "field3Label_placeholder": "Enter a valid vehicle group id",
             "field4Label": "Device Template",
             "field4Label_placeholder": "Select a device template",
-            "cta1Label": "Add new device group"
+            "cta1Label": "Add new vehicle group"
         },
-        "deviceGroupAdding": "Creating device group",
-        "deviceGroupAddingError": "Device Group Adding Error",
+        "deviceGroupAdding": "Creating vehicle group",
+        "deviceGroupAddingError": "Vehicle Group Adding Error",
     }
 } 
