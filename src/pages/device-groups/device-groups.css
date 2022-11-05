@@ -85,6 +85,39 @@
     margin-top: 0.5rem;
 }
 
+.device-groups-page .form .fields .filter {
+    overflow: hidden;/* Makes this div contain its floats */
+}
+
+.device-groups-page .form .fields .filter .container {
+    padding: 0.5rem 0;
+}
+
+.device-groups-page .form .fields .filter .filter-name,
+.device-groups-page .form .fields .filter .filter-value {
+    width: 45%;
+}
+
+.device-groups-page .form .fields .filter .filter-label {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    text-align: right;
+}
+
+.device-groups-page .form .fields .filter .filter-name {
+    float: left;
+}
+
+.device-groups-page .form .fields .filter .filter-value {
+    float: right;
+}
+
+.device-group-filter {
+    border: 1px solid var(--sub-secondary-accent-color);
+    padding: 0.25rem 0.25rem;
+    border-radius: 4px;
+}
+
 .device-groups-page .loader {
     margin-top: 1rem;
 }

@@ -134,6 +134,81 @@ export default function DeviceGroups() {
         s[e.target.name] = e.target.value;
         setPayload(s);
     }
+    
+    const container = document.getElementById('capability-filter-cont');
+
+    const addInput = ()  => {
+        
+        let inputFilterName = document.createElement('input');
+        let inputFilterValue = document.createElement('input');
+        let filterNameValueDiv = document.createElement('div');
+        filterNameValueDiv.className = 'filter';
+        inputFilterName.placeholder = 'Filter name';
+        inputFilterValue.placeholder = 'Filter value';
+        inputFilterName.className = 'filter-name';
+        inputFilterValue.className = 'filter-value';
+        inputFilterName.type = 'text';
+        inputFilterName.autocomplete = 'off';
+        inputFilterValue.type = 'text';
+        inputFilterValue.autocomplete = 'off';
+        console.log(container);
+        if(container) {
+            filterNameValueDiv.appendChild(inputFilterName);
+            filterNameValueDiv.appendChild(inputFilterValue);
+            container.appendChild(filterNameValueDiv);
+        }
+        
+        //document.getElementById('input-cont').appendChild(input);
+    }
+
+    const addFiltersDom: any = [];
+    addFiltersDom.push(         
+        <div id='input-cont'>                       
+        <div className='filter container'>
+                    <label className='filter-name filter-label'>$id</label>
+                    
+                        <input className='filter-value' id="filterIdValue" autoComplete='off' type='text' name='filterValue' value={payload.deviceGroupId} onChange={updatePayload} placeholder='Device Id'  />                       
+                      
+        </div>
+        <div className='filter container'>
+            <label className='filter-name filter-label'>$provisioned</label>
+            <div className="filter-name">
+                <label> Yes </label>
+                <input id="provisionedYesValue" type='radio' value="Yes" name='provisionedValue' />&nbsp; &nbsp; &nbsp; &nbsp;
+                <label>No</label>
+                <input id="provisionedNoValue" type='radio' value="No" name='provisionedValue' />
+            </div>
+        </div>
+        <div className='filter container'>
+            <label className='filter-name filter-label'>$simulated</label>
+            <div className="filter-name">
+                <label> Yes </label>
+                <input id="simulatedYesValue" type='radio' value="Yes" name='simulatedValue' /> &nbsp; &nbsp; &nbsp; &nbsp;
+                <label>No</label>
+                <input id="simulatedNoValue" type='radio' value="No" name='simulatedValue' />
+            </div>
+        </div>
+        <div className='filter container'>
+            <label className='filter-name filter-label'>$ts</label>
+            <input className='filter-value' id="filterIdValue" autoComplete='off' type='text' name='filterValue' value={payload.deviceGroupId} onChange={updatePayload} placeholder='Timestamp'  />
+        </div>
+    </div>);
+
+    const addCapabilityFiltersDom: any = [];
+    addCapabilityFiltersDom.push(
+        <div>
+            <div id='capability-filter-cont'>
+            <div className='filter'>
+                <input className='filter-name' autoComplete='off' type='text' name='filterField' value={payload.deviceGroupId} onChange={updatePayload} placeholder='Filter name'  />
+                <input className='filter-value' autoComplete='off' type='text' name='filterValue' value={payload.deviceGroupId} onChange={updatePayload} placeholder='Filter value'  />
+            </div>
+            </div>
+            <br/>
+            <div>
+                <button className='btn btn-primary' onClick={() => { addInput(); }}>+Add capability filter</button>
+            </div>            
+        </div>
+    );
 
     return <div className='device-groups-page'>
         <h3>{RESX.devicegroups.title}</h3>
@@ -168,7 +243,20 @@ export default function DeviceGroups() {
                                 {deviceTemplatesDom}
                                 </select>              
                             </div>
+                            <div className='fields device-group-filter'>
+                                <label>System Filters</label><br />
+                                {addFiltersDom}
+                            </div>
+                            <div className='fields device-group-filter'>
+                                <label>Capability Filters</label><br />
+                                {addCapabilityFiltersDom}
+                            </div>                        
                         </div>
+                        <div className='device-group-filter'>
+                            <label>Computed Filter</label><br />
+                            <label id='computedProperty' className='filter-name'>SELECT * FROM devices WHERE $template = "dtmi:modelDefinition:kzgfrbf:h4izex7s0i0" AND $provisioned = true AND $displayName = "Seattle"</label><br />
+                        </div>
+
                         <br />
                         <button onClick={() => { callAddDeviceGroup(); }} className='btn btn-primary'>{RESX.devicegroups.form.cta1Label}</button>
                         {addingDeviceGroup ? <><div className='loader'><label>{RESX.devicegroups.deviceGroupAdding}</label><BeatLoader size='16px' /></div></> : null}
