@@ -38,7 +38,12 @@ function addDeviceGroup(authContext: any, appHost: any, deviceGroupId: string, d
     return new Promise(async (resolve, reject) => {
         const centralAccessToken = await authContext.getCentralAccessToken();
         let deviceGroupRes: any = {};
+
         let filterValue = "SELECT * FROM devices WHERE $template = \"" + deviceTemplate + "\"";
+        let computedQueryLabelContent = document.getElementById('computedPropertyId')?.textContent;
+        if(computedQueryLabelContent) {
+            filterValue = computedQueryLabelContent;
+        }
         axios.put(`https://${appHost}/api/deviceGroups/${deviceGroupId}?api-version=${Config.APIVersion}`,
             {
                 'displayName': deviceGroupDisplayName,
@@ -128,17 +133,107 @@ export default function DeviceGroups() {
         </div >
         )
     }
+    let selectedTemplate = "";
+    const updateSelectedTemplate = (e) => {
+        selectedTemplate = e.target.value;
+        updateSystemFilterQuery();
+        console.log("selected template is", selectedTemplate);
+    }
 
     const updatePayload = (e) => {
         const s: any = Object.assign({}, payload);
         s[e.target.name] = e.target.value;
         setPayload(s);
     }
+
+    let systemFilter = "";
+
+    let systemFilterId = "";
+    const updateSystemFilterId = (e) => {
+        systemFilterId = e.target.value;
+        console.log('systemFilterId', systemFilterId);
+        updateSystemFilterQuery();
+    }
+
+    let systemFilterTimeStamp = "";
+    const updateSystemFilterTimeStamp = (e) => {
+        systemFilterTimeStamp = e.target.value;
+        console.log('systemFilterTimeStamp', systemFilterTimeStamp);
+        updateSystemFilterQuery();
+    }
+
+    let systemFilterProvisioned = "";
+    const updateSystemFilterProvisioned = (e) => {
+        if(e.target.value === "Yes") {
+            systemFilterProvisioned = "true"
+        }
+        else { 
+            systemFilterProvisioned = "false"
+        }
+        console.log('systemFilterProvisioned', systemFilterProvisioned);
+        updateSystemFilterQuery();
+    }
+
+    let systemFilterSimulated = "";
+    const updateSystemFilterSimulated = (e) => {
+        if(e.target.value === "Yes") {
+            systemFilterSimulated = "true"
+        }
+        else { 
+            systemFilterSimulated = "false"
+        }
+        console.log('systemFilterSimulated', systemFilterSimulated);
+        updateSystemFilterQuery();
+    }
     
-    const container = document.getElementById('capability-filter-cont');
+    const updateSystemFilterQuery = () => {
+        if(selectedTemplate) 
+        {
+            console.log('selectedTemplate', selectedTemplate);
+            systemFilter = "SELECT * FROM devices WHERE $template =" + "\"" + selectedTemplate + "\"";
+            if(systemFilterId.length > 0) {
+                systemFilter = systemFilter + " AND $id=" + systemFilterId;
+            }
+            
+            if(systemFilterTimeStamp.length > 0) {
+                systemFilter = systemFilter + " AND $ts=" + systemFilterTimeStamp;
+            }
+
+            if(systemFilterProvisioned.length > 0) {
+                systemFilter = systemFilter + " AND $provisioned=" + systemFilterProvisioned;
+            }
+
+            if(systemFilterSimulated.length > 0) {
+                systemFilter = systemFilter + " AND $simulated=" + systemFilterSimulated;
+            }
+
+            let capabilityFilters = "";
+            console.log('capabilityFilterField', document.getElementsByName('capabilityFilterField'));
+            console.log('capabilityFilterValue', document.getElementsByName('capabilityFilterValue'));
+            if(document.getElementsByName('capabilityFilterField') && document.getElementsByName('capabilityFilterValue')) {
+                for(let capabilityFilterIndex = 0; capabilityFilterIndex < document.getElementsByName('capabilityFilterField').length; capabilityFilterIndex++) {
+                    if(document.getElementsByName('capabilityFilterField')[capabilityFilterIndex] && (document.getElementsByName('capabilityFilterField')[capabilityFilterIndex] as HTMLInputElement).value
+                            && document.getElementsByName('capabilityFilterValue')[capabilityFilterIndex] && (document.getElementsByName('capabilityFilterValue')[capabilityFilterIndex] as HTMLInputElement).value){
+                        let capabilityFilterName = (document.getElementsByName('capabilityFilterField')[capabilityFilterIndex] as HTMLInputElement).value;
+                        let capabilityFilterValue= (document.getElementsByName('capabilityFilterValue')[capabilityFilterIndex] as HTMLInputElement).value;
+                        console.log(capabilityFilterName, capabilityFilterValue);
+                        capabilityFilters = capabilityFilters + " AND " + capabilityFilterName + "=" + capabilityFilterValue;
+                        console.log('capabilityFilters', capabilityFilters);
+                    }
+                }
+            }
+            systemFilter = systemFilter + capabilityFilters;
+            console.log('systemFilter', systemFilter);
+
+            const computedQueryLabel = document.getElementById('computedPropertyId');
+            if(computedQueryLabel) {
+                computedQueryLabel.textContent = systemFilter;
+            }            
+        }
+    }
 
     const addInput = ()  => {
-        
+        const container = document.getElementById('capability-filter-cont');
         let inputFilterName = document.createElement('input');
         let inputFilterValue = document.createElement('input');
         let filterNameValueDiv = document.createElement('div');
@@ -151,7 +246,11 @@ export default function DeviceGroups() {
         inputFilterName.autocomplete = 'off';
         inputFilterValue.type = 'text';
         inputFilterValue.autocomplete = 'off';
-        console.log(container);
+        inputFilterName.name = 'capabilityFilterField';
+        inputFilterValue.name = 'capabilityFilterValue';
+        inputFilterName.onchange =  function () { updateSystemFilterQuery()};
+        inputFilterValue.onchange =  function () { updateSystemFilterQuery()};
+        console.log('container', container);
         if(container) {
             filterNameValueDiv.appendChild(inputFilterName);
             filterNameValueDiv.appendChild(inputFilterValue);
@@ -167,30 +266,30 @@ export default function DeviceGroups() {
         <div className='filter container'>
                     <label className='filter-name filter-label'>$id</label>
                     
-                        <input className='filter-value' id="filterIdValue" autoComplete='off' type='text' name='filterValue' value={payload.deviceGroupId} onChange={updatePayload} placeholder='Device Id'  />                       
+                        <input className='filter-value' id="filterIdValue" autoComplete='off' type='text' name='filterValue' onChange={updateSystemFilterId} placeholder='Device Id'  />                       
                       
         </div>
         <div className='filter container'>
             <label className='filter-name filter-label'>$provisioned</label>
-            <div className="filter-name">
+            <div className="filter-name filter-option">
                 <label> Yes </label>
-                <input id="provisionedYesValue" type='radio' value="Yes" name='provisionedValue' />&nbsp; &nbsp; &nbsp; &nbsp;
+                <input id="provisionedYesValue" type='radio' value="Yes" name='provisionedValue' onChange={updateSystemFilterProvisioned} />&nbsp; &nbsp; &nbsp; &nbsp;
                 <label>No</label>
-                <input id="provisionedNoValue" type='radio' value="No" name='provisionedValue' />
+                <input id="provisionedNoValue" type='radio' value="No" name='provisionedValue' onChange={updateSystemFilterProvisioned} />
             </div>
         </div>
         <div className='filter container'>
             <label className='filter-name filter-label'>$simulated</label>
-            <div className="filter-name">
+            <div className="filter-name filter-option">
                 <label> Yes </label>
-                <input id="simulatedYesValue" type='radio' value="Yes" name='simulatedValue' /> &nbsp; &nbsp; &nbsp; &nbsp;
+                <input id="simulatedYesValue" type='radio' value="Yes" name='simulatedValue' onChange={updateSystemFilterSimulated} /> &nbsp; &nbsp; &nbsp; &nbsp;
                 <label>No</label>
-                <input id="simulatedNoValue" type='radio' value="No" name='simulatedValue' />
+                <input id="simulatedNoValue" type='radio' value="No" name='simulatedValue' onChange={updateSystemFilterSimulated} />
             </div>
         </div>
         <div className='filter container'>
             <label className='filter-name filter-label'>$ts</label>
-            <input className='filter-value' id="filterIdValue" autoComplete='off' type='text' name='filterValue' value={payload.deviceGroupId} onChange={updatePayload} placeholder='Timestamp'  />
+            <input className='filter-value' id="filterIdValue" autoComplete='off' type='text' name='filterValue' onChange={updateSystemFilterTimeStamp} placeholder='2021-09-14T11:40:00Z'  />
         </div>
     </div>);
 
@@ -199,8 +298,8 @@ export default function DeviceGroups() {
         <div>
             <div id='capability-filter-cont'>
             <div className='filter'>
-                <input className='filter-name' autoComplete='off' type='text' name='filterField' value={payload.deviceGroupId} onChange={updatePayload} placeholder='Filter name'  />
-                <input className='filter-value' autoComplete='off' type='text' name='filterValue' value={payload.deviceGroupId} onChange={updatePayload} placeholder='Filter value'  />
+                <input className='filter-name' autoComplete='off' type='text' name='capabilityFilterField' onChange={updateSystemFilterQuery} placeholder='Filter name'  />
+                <input className='filter-value' autoComplete='off' type='text' name='capabilityFilterValue' onChange={updateSystemFilterQuery} placeholder='Filter value'  />
             </div>
             </div>
             <br/>
@@ -236,7 +335,7 @@ export default function DeviceGroups() {
                             </div>                                         
                             <div className='fields'>
                                 <label>{RESX.devicegroups.form.field4Label}</label><br />     
-                                <select onChange={updatePayload} name='deviceTemplate' defaultValue={RESX.devicegroups.form.field4Label_placeholder}>
+                                <select onChange={updateSelectedTemplate} name='deviceTemplate' defaultValue={RESX.devicegroups.form.field4Label_placeholder}>
                                 <option disabled hidden>
                                     {RESX.devicegroups.form.field4Label_placeholder}
                                 </option>
@@ -254,7 +353,7 @@ export default function DeviceGroups() {
                         </div>
                         <div className='device-group-filter'>
                             <label>Computed Filter</label><br />
-                            <label id='computedProperty' className='filter-name'>SELECT * FROM devices WHERE $template = "dtmi:modelDefinition:kzgfrbf:h4izex7s0i0" AND $provisioned = true AND $displayName = "Seattle"</label><br />
+                            <label id='computedPropertyId' className='filter-name'></label><br />
                         </div>
 
                         <br />

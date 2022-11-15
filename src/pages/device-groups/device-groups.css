@@ -108,6 +108,11 @@
     float: left;
 }
 
+.device-groups-page .form .fields .filter .filter-option {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+}
+
 .device-groups-page .form .fields .filter .filter-value {
     float: right;
 }
