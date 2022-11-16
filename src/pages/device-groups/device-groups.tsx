@@ -137,7 +137,6 @@ export default function DeviceGroups() {
     const updateSelectedTemplate = (e) => {
         selectedTemplate = e.target.value;
         updateSystemFilterQuery();
-        console.log("selected template is", selectedTemplate);
     }
 
     const updatePayload = (e) => {
@@ -151,14 +150,12 @@ export default function DeviceGroups() {
     let systemFilterId = "";
     const updateSystemFilterId = (e) => {
         systemFilterId = e.target.value;
-        console.log('systemFilterId', systemFilterId);
         updateSystemFilterQuery();
     }
 
     let systemFilterTimeStamp = "";
     const updateSystemFilterTimeStamp = (e) => {
         systemFilterTimeStamp = e.target.value;
-        console.log('systemFilterTimeStamp', systemFilterTimeStamp);
         updateSystemFilterQuery();
     }
 
@@ -170,7 +167,6 @@ export default function DeviceGroups() {
         else { 
             systemFilterProvisioned = "false"
         }
-        console.log('systemFilterProvisioned', systemFilterProvisioned);
         updateSystemFilterQuery();
     }
 
@@ -182,14 +178,15 @@ export default function DeviceGroups() {
         else { 
             systemFilterSimulated = "false"
         }
-        console.log('systemFilterSimulated', systemFilterSimulated);
         updateSystemFilterQuery();
     }
     
     const updateSystemFilterQuery = () => {
+        if(!selectedTemplate && document.getElementsByName('deviceTemplate').length === 1) {
+            selectedTemplate = (document.getElementsByName('deviceTemplate')[0] as HTMLInputElement).value;
+        }
         if(selectedTemplate) 
         {
-            console.log('selectedTemplate', selectedTemplate);
             systemFilter = "SELECT * FROM devices WHERE $template =" + "\"" + selectedTemplate + "\"";
             if(systemFilterId.length > 0) {
                 systemFilter = systemFilter + " AND $id=" + systemFilterId;
@@ -208,23 +205,17 @@ export default function DeviceGroups() {
             }
 
             let capabilityFilters = "";
-            console.log('capabilityFilterField', document.getElementsByName('capabilityFilterField'));
-            console.log('capabilityFilterValue', document.getElementsByName('capabilityFilterValue'));
             if(document.getElementsByName('capabilityFilterField') && document.getElementsByName('capabilityFilterValue')) {
                 for(let capabilityFilterIndex = 0; capabilityFilterIndex < document.getElementsByName('capabilityFilterField').length; capabilityFilterIndex++) {
                     if(document.getElementsByName('capabilityFilterField')[capabilityFilterIndex] && (document.getElementsByName('capabilityFilterField')[capabilityFilterIndex] as HTMLInputElement).value
                             && document.getElementsByName('capabilityFilterValue')[capabilityFilterIndex] && (document.getElementsByName('capabilityFilterValue')[capabilityFilterIndex] as HTMLInputElement).value){
                         let capabilityFilterName = (document.getElementsByName('capabilityFilterField')[capabilityFilterIndex] as HTMLInputElement).value;
                         let capabilityFilterValue= (document.getElementsByName('capabilityFilterValue')[capabilityFilterIndex] as HTMLInputElement).value;
-                        console.log(capabilityFilterName, capabilityFilterValue);
                         capabilityFilters = capabilityFilters + " AND " + capabilityFilterName + "=" + capabilityFilterValue;
-                        console.log('capabilityFilters', capabilityFilters);
                     }
                 }
             }
             systemFilter = systemFilter + capabilityFilters;
-            console.log('systemFilter', systemFilter);
-
             const computedQueryLabel = document.getElementById('computedPropertyId');
             if(computedQueryLabel) {
                 computedQueryLabel.textContent = systemFilter;
@@ -250,7 +241,6 @@ export default function DeviceGroups() {
         inputFilterValue.name = 'capabilityFilterValue';
         inputFilterName.onchange =  function () { updateSystemFilterQuery()};
         inputFilterValue.onchange =  function () { updateSystemFilterQuery()};
-        console.log('container', container);
         if(container) {
             filterNameValueDiv.appendChild(inputFilterName);
             filterNameValueDiv.appendChild(inputFilterValue);
