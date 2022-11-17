@@ -1,0 +1,134 @@
+.device-groups-page {
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 2rem;
+}
+
+.device-groups-page .device-groups-selector {
+    justify-content: center;
+}
+.device-groups-page .device-group-cards {
+    display: flex;
+    flex-flow: wrap;
+}
+.device-groups-page .device-group-card>div {
+    margin-bottom: 1.5rem;    
+}
+
+
+.device-groups-page .device-group-card {
+    background-color: var(--bright-color);
+    min-height: 12.5rem;
+    border-radius: 0.25rem;
+    padding: 0.75rem;
+    color: var(--main-bg-color);
+    margin-right: 1rem;
+    box-shadow: 0px 0px 0.25rem 0px var(--box-shadow-color);
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.device-groups-page .device-group-card>div>div:nth-child(1) {
+    height: 2.8rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.6rem;
+}
+
+.device-groups-page .device-group-card .name {
+    font-size: 0.9rem;
+}
+
+.device-groups-page .device-group-card .data-table {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-align: left;
+    background-color: var(--secondary-accent-color);
+    color: var(--bright-color);
+    padding: 0.25rem 0.25rem;
+    border-radius: 4px;
+}
+
+.device-groups-page .device-group-card .data-table .field {
+    color: var(--bright-color);
+    margin-bottom: 0.5rem;
+}
+
+.device-groups-page .device-group-card .field {
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+}
+
+.device-groups-page .device-group-card .field>div:nth-child(1) {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.device-groups-page .device-group-card .field>div:nth-child(2) {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.device-groups-page .form {
+    text-align: center;
+    width: 50%;
+}
+
+.device-groups-page .form .fields {
+    margin-top: 0.5rem;
+}
+
+.device-groups-page .form .fields .filter {
+    overflow: hidden;/* Makes this div contain its floats */
+}
+
+.device-groups-page .form .fields .filter .container {
+    padding: 0.5rem 0;
+}
+
+.device-groups-page .form .fields .filter .filter-name,
+.device-groups-page .form .fields .filter .filter-value {
+    width: 45%;
+}
+
+.device-groups-page .form .fields .filter .filter-label {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    text-align: right;
+}
+
+.device-groups-page .form .fields .filter .filter-name {
+    float: left;
+}
+
+.device-groups-page .form .fields .filter .filter-option {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+}
+
+.device-groups-page .form .fields .filter .filter-value {
+    float: right;
+}
+
+.device-group-filter {
+    border: 1px solid var(--sub-secondary-accent-color);
+    padding: 0.25rem 0.25rem;
+    border-radius: 4px;
+}
+
+.device-groups-page .loader {
+    margin-top: 1rem;
+}
+
+.device-groups-page .error {
+    text-align: center;
+    width: 70%;
+    color: var(--error-color);
+}

@@ -21,7 +21,7 @@ export const RESX = {
     "navigation": {
         "title1": "Fleet Applications",
         "title2": "Menu",
-        "menuLabels": ["View Map", "Fleet", "Register Driver", "Manage Apps", "Jobs"]
+        "menuLabels": ["View Map", "Fleet", "Register Driver", "Manage Apps", "Jobs", "Vehicle Groups"]
     },
     "apps": {
         "users": "USERS",
@@ -94,5 +94,25 @@ export const RESX = {
         },
         "jobAdding": "Creating job",
         "jobAddingError": "Job Adding Error",
+    },
+    "devicegroups": {
+        "title": "What app would you like to add or view vehicle groups for?",
+        "title2": "List of Vehicle Groups",
+        "title3": "Add new Vehicle Group",
+        "title4": "Vehicle Group Name",
+        "cta_label": "Visit this app's IoT Central devices page",
+        "form": {
+            "field1Label": "Vehicle group name",
+            "field1Label_placeholder": "Enter a valid vehicle group name",
+            "field2Label": "Vehicle Group description",
+            "field2Label_placeholder": "Enter a valid vehicle group description",
+            "field3Label": "Vehicle Group Id",
+            "field3Label_placeholder": "Enter a valid vehicle group id",
+            "field4Label": "Device Template",
+            "field4Label_placeholder": "Select a device template",
+            "cta1Label": "Add new vehicle group"
+        },
+        "deviceGroupAdding": "Creating vehicle group",
+        "deviceGroupAddingError": "Vehicle Group Adding Error",
     }
 } 

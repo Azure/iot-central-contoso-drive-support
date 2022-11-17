@@ -14,6 +14,7 @@ import Apps from '../apps/apps';
 import Drivers from '../drivers/drivers';
 import Devices from '../devices/devices';
 import Jobs from '../jobs/jobs';
+import DeviceGroups from '../device-groups/device-groups';
 
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom'
@@ -24,6 +25,7 @@ const nav = [
     { label: RESX.navigation.menuLabels[2], icon: null, link: '/drivers', title: RESX.navigation.menuLabels[2] },
     { label: RESX.navigation.menuLabels[3], icon: null, link: '/apps', title: RESX.navigation.menuLabels[3] },
     { label: RESX.navigation.menuLabels[4], icon: null, link: '/jobs', title: RESX.navigation.menuLabels[4] },
+    { label: RESX.navigation.menuLabels[5], icon: null, link: '/device-groups', title: RESX.navigation.menuLabels[5] },
 ]
 
 /* UX */
@@ -54,6 +56,7 @@ function Page({ authContext, dataContext, loadingDevices }) {
                     <Redirect to='map' />
                 </Route>
                 <Route path='/jobs' component={Jobs} />
+                <Route path='/device-groups' component={DeviceGroups} />
             </div>
         </div>
     </div>
