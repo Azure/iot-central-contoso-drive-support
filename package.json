@@ -9,7 +9,7 @@
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@microsoft/iot-cardboard-js": "^1.0.0-beta.1",
     "@types/react-toggle": "^4.0.2",
-    "axios": "^0.21.0",
+    "axios": "^1.6.0",
     "azure-maps-control": "^2.0.31",
     "cross-env": "^7.0.3",
     "moment": "^2.29.1",
