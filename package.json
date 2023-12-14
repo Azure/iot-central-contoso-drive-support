@@ -7,7 +7,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/react-fontawesome": "^0.1.14",
-    "@microsoft/iot-cardboard-js": "^1.0.0-beta.1",
+    "@microsoft/iot-cardboard-js": "^1.0.0-beta.400",
     "@types/react-toggle": "^4.0.2",
     "axios": "^1.6.0",
     "azure-maps-control": "^2.0.31",
